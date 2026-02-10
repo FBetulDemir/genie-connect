@@ -2,6 +2,7 @@ import SendIcon from "@/components/icons/SendIcon";
 import { Avatar, AvatarGroup, AvatarPicker } from "@/components/ui/Avatar";
 import Button from "@/components/ui/Button";
 import { Card, CardContent, CardTitle } from "@/components/ui/Card";
+import Hashtag from "@/components/ui/Hashtag";
 
 export default function Home() {
   return (
@@ -31,6 +32,7 @@ export default function Home() {
             <Avatar emoji="😸" size="md" />
           </AvatarGroup>
         </Card>
+        <Hashtag size="md">#mentorship</Hashtag>
       </main>
     </div>
   );
