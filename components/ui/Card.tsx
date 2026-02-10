@@ -24,13 +24,15 @@ function Card({
   return (
     <div
       className={cn(
-        "rounded-xl transition-colors text-gray-300",
+        "rounded-xl transition-colors text-[var(--text-body)]",
 
         // variants
-        variant === "default" && "bg-[#1e293b] border border-gray-700/50",
-        variant === "bordered" && "bg-[#1e293b] border border-gray-600",
+        variant === "default" &&
+          "bg-[var(--surface-muted)] border border-[var(--border-card-default)]",
+        variant === "bordered" &&
+          "bg-[var(--surface-muted)] border border-[var(--border-card-strong)]",
         variant === "interactive" &&
-          "bg-[#1e293b] border border-gray-700/50 hover:border-gray-600 cursor-pointer",
+          "bg-[var(--surface-muted)] border border-[var(--border-card-default)] hover:border-[var(--border-card-strong)] cursor-pointer",
 
         // padding
         padding === "none" && "p-0",
@@ -58,7 +60,7 @@ function CardTitle({ className, children, ...props }: CardTitleProps) {
   return (
     <h3
       className={cn(
-        "text-lg font-semibold leading-none tracking-tight text-white",
+        "text-lg font-semibold leading-none tracking-tight text-[var(--text-primary)]",
         className,
       )}
       {...props}>
@@ -73,7 +75,9 @@ function CardDescription({
   ...props
 }: CardDescriptionProps) {
   return (
-    <p className={cn("text-sm text-gray-400", className)} {...props}>
+    <p
+      className={cn("text-sm text-[var(--text-secondary)]", className)}
+      {...props}>
       {children}
     </p>
   );

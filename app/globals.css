@@ -1,8 +1,80 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #101b3a;
+  --foreground: #e5e7eb;
+  --surface: #182544;
+  --surface-muted: #1e2b4a;
+
+  /* ---------- TEXT ---------- */
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5f5;
+  --text-muted: #94a3c7;
+  --text-body: #cbd5f5;
+
+  /* ---------- TYPOGRAPHY ---------- */
+  --font-body: Arial, Helvetica, sans-serif;
+
+  --text-size-sm: 14px;
+  --text-size-md: 16px;
+  --text-size-lg: 18px;
+  --text-size-xl: 30px;
+
+  --line-height-sm: 20px;
+  --line-height-md: 24px;
+  --line-height-lg: 28px;
+  --line-height-xl: 36px;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+
+  /* ---------- BORDERS ---------- */
+  --border-card-light: rgba(88, 112, 168, 0.35);
+  --border-card-default: rgba(88, 112, 168, 0.5);
+  --border-card-strong: rgba(99, 126, 191, 0.8);
+
+  /* ---------- ACCENTS ---------- */
+  --accent-blue-500: #3b82f6;
+  --accent-blue-400: #60a5fa;
+  --accent-blue-200: rgba(59, 130, 246, 0.2);
+  --accent-pink-400: #f472b6;
+
+  /* ---------- BUTTON SIZE ---------- */
+  --button-height-md: 36px;
+  --button-padding-x: 16px;
+  --button-padding-y: 8px;
+  --button-gap: 8px;
+
+  /* ---------- LARGE BUTTON ---------- */
+  --button-height-lg: 48px;
+  --button-padding-x-lg: 20px;
+  --button-padding-y-lg: 12px;
+  --button-font-size-lg: 18px;
+  --button-line-height-lg: 28px;
+
+  /* ---------- BUTTON RADIUS ---------- */
+  --button-radius: 8px;
+
+  /* ---------- BUTTON TEXT ---------- */
+  --button-font-size: 16px;
+  --button-line-height: 24px;
+  --button-font-weight: 500;
+
+  /* ---------- BUTTON COLORS ---------- */
+  --button-primary-bg: #3b82f6;
+  --button-primary-text: #ffffff;
+
+  --button-secondary-bg: #1f2f5c;
+  --button-secondary-text: #e5e7eb;
+  --button-secondary-border: rgba(88, 112, 168, 0.6);
+
+  --button-ghost-bg: transparent;
+  --button-ghost-text: #cbd5f5;
+  --button-ghost-border: rgba(88, 112, 168, 0.6);
+
+  --button-disabled-bg: rgba(148, 163, 199, 0.2);
+  --button-disabled-text: rgba(203, 213, 245, 0.45);
 }
 
 @theme inline {
@@ -10,17 +82,71 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
+  --surface: var(--surface);
+  --surface-muted: var(--surface-muted);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* default text */
+  --font-body: var(--font-body);
+  --text-body-size: var(--text-size-md);
+  --title-size-lg: var(--text-size-lg);
+  --title-size-xl: var(--text-size-xl);
+  --text-size-sm: var(--text-size-sm);
+  --text-body-line-height: var(--line-height-md);
+  --text-body-weight: var(--font-weight-regular);
+
+  /* Text */
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-text-body: var(--text-body);
+
+  /* Borders */
+  --color-border-card-light: var(--border-card-light);
+  --color-border-card-default: var(--border-card-default);
+  --color-border-card-strong: var(--border-card-strong);
+
+  /* Accents */
+  --color-accent-blue: var(--accent-blue-500);
+  --color-accent-blue-soft: var(--accent-blue-200);
+  --color-accent-pink: var(--accent-pink-400);
+
+  /* Button sizing */
+  --button-height-md: var(--button-height-md);
+  --button-radius: var(--button-radius);
+  --button-height-lg: var(--button-height-lg);
+
+  /* Button typography */
+  --button-font-size: var(--button-font-size);
+  --button-line-height: var(--button-line-height);
+  --button-font-weight: var(--button-font-weight);
+
+  /* Button colors */
+  --button-primary-bg: var(--button-primary-bg);
+  --button-primary-text: var(--button-primary-text);
+
+  --button-secondary-bg: var(--button-secondary-bg);
+  --button-secondary-text: var(--button-secondary-text);
+  --button-secondary-border: var(--button-secondary-border);
+
+  --button-ghost-bg: var(--button-ghost-bg);
+  --button-ghost-text: var(--button-ghost-text);
+  --button-ghost-border: var(--button-ghost-border);
+
+  --button-disabled-bg: var(--button-disabled-bg);
+  --button-disabled-text: var(--button-disabled-text);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+}
+
+/* Hide scrollbars but keep scroll functionality */
+.scrollbar-none {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge legacy */
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
 }

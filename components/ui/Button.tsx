@@ -35,35 +35,38 @@ export default function Button({
   const isDisabled = disabled || isLoading;
   const buttonClassName = cn(
     // base
-    "inline-flex items-center justify-center rounded-lg",
-    "gap-2 font-medium",
+    "inline-flex items-center justify-center rounded-[var(--button-radius)]",
+    "gap-[var(--button-gap)] px-[var(--button-padding-x)] py-[var(--button-padding-y)]",
+    "text-[var(--button-font-size)] leading-[var(--button-line-height)] font-[var(--button-font-weight)]",
     "transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
     "ring-offset-background",
 
     // sizes
-    size === "sm" && "h-8 px-3 text-sm",
-    size === "md" && "h-10 px-4 text-base",
-    size === "lg" && "h-12 px-6 text-lg",
+    size === "sm" && "h-8 px-3 text-[var(--text-size-sm)]",
+    size === "md" && "h-[var(--button-height-md)]",
+    size === "lg" &&
+      "h-[var(--button-height-lg)] px-[var(--button-padding-x-lg)] py-[var(--button-padding-y-lg)] text-[var(--button-font-size-lg)] leading-[var(--button-line-height-lg)]",
     size === "icon" && "h-10 w-10 p-0",
 
     // variants
     variant === "primary" &&
-      "bg-blue-600 text-white hover:opacity-90 focus-visible:ring-blue-500",
+      "bg-[var(--button-primary-bg)] text-[var(--button-primary-text)] hover:opacity-90 focus-visible:ring-[var(--button-primary-bg)]",
     variant === "secondary" &&
-      "bg-gray-600 text-white hover:opacity-90 focus-visible:ring-gray-500",
+      "bg-[var(--button-secondary-bg)] text-[var(--button-secondary-text)] border border-[var(--button-secondary-border)] hover:bg-black/5 focus-visible:ring-black/20",
     variant === "outline" &&
-      "border-2 border-blue-500 text-blue-400 hover:bg-blue-500/10 focus-visible:ring-blue-500",
+      "bg-transparent text-[var(--text-primary)] border border-[var(--border-card-strong)] hover:bg-black/5 focus-visible:ring-black/20",
     variant === "ghost" &&
-      "text-blue-400 hover:bg-blue-500/10 focus-visible:ring-blue-500",
+      "bg-[var(--button-ghost-bg)] text-[var(--button-ghost-text)] border border-[var(--button-ghost-border)] hover:bg-black/5 focus-visible:ring-black/20",
     variant === "link" &&
-      "text-blue-400 underline-offset-4 hover:underline h-auto p-0 focus-visible:ring-0",
+      "text-[var(--text-secondary)] underline-offset-4 hover:underline h-auto p-0 focus-visible:ring-0",
     variant === "tag" &&
-      "border border-blue-500 text-blue-400 rounded-full hover:bg-blue-500/20 focus-visible:ring-blue-500",
+      "border border-[var(--border-card-strong)] text-[var(--text-secondary)] rounded-full hover:bg-black/5 focus-visible:ring-black/20",
     variant === "interaction" &&
-      "bg-gray-800 border border-gray-700 text-gray-300 hover:bg-gray-700 focus-visible:ring-gray-500",
+      "bg-[var(--surface-muted)] border border-[var(--border-card-default)] text-[var(--text-body)] hover:bg-black/5 focus-visible:ring-black/20",
 
     // disabled
-    isDisabled && "cursor-not-allowed opacity-50 hover:opacity-50",
+    isDisabled &&
+      "cursor-not-allowed bg-[var(--button-disabled-bg)] text-[var(--button-disabled-text)] border-transparent hover:opacity-100",
 
     className,
   );
