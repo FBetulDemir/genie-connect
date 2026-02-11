@@ -1,3 +1,5 @@
+"use client";
+
 import SendIcon from "@/components/icons/SendIcon";
 import { Avatar, AvatarGroup, AvatarPicker } from "@/components/ui/Avatar";
 import Button from "@/components/ui/Button";
@@ -16,6 +18,8 @@ import {
   SmallText,
   Label,
 } from "@/components/ui/Typography";
+import Modal from "@/components/ui/Modal";
+import { Input, TextArea } from "@/components/ui/Input";
 
 export default function Home() {
   return (
@@ -52,8 +56,12 @@ export default function Home() {
           <SectionTitle>SectionTitle - Section heading</SectionTitle>
           <SubTitle>SubTitle - Sub section</SubTitle>
           <SmallTitle>SmallTitle - Small heading</SmallTitle>
-          <BodyText>BodyText - Regular body text for paragraphs and content.</BodyText>
-          <SmallText>SmallText - Smaller text for captions and hints.</SmallText>
+          <BodyText>
+            BodyText - Regular body text for paragraphs and content.
+          </BodyText>
+          <SmallText>
+            SmallText - Smaller text for captions and hints.
+          </SmallText>
           <Label htmlFor="example">Label - For form inputs</Label>
         </div>
 
@@ -61,8 +69,40 @@ export default function Home() {
         <div className="flex items-center gap-4">
           <IconButton icon={<HeartIcon />} aria-label="Like" count={42} />
           <IconButton icon={<CommentIcon />} aria-label="Comments" count={18} />
-          <IconButton icon={<LikeIcon />} aria-label="Helpful" count={15} label="helpful" />
+          <IconButton
+            icon={<LikeIcon />}
+            aria-label="Helpful"
+            count={15}
+            label="helpful"
+          />
         </div>
+
+        {/* Input & TextArea */}
+        <div className="w-full max-w-md space-y-4">
+          <Input name="email" label="Email" placeholder="you@example.com" />
+          <Input name="oops" label="Username" error="Already taken" />
+          <TextArea
+            name="bio"
+            label="Bio"
+            placeholder="Tell us about yourself..."
+            description="Max 200 characters"
+          />
+        </div>
+
+        {/* Modal */}
+        <Modal open={false} onClose={() => {}} size="md">
+          <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
+            Create Post
+          </h2>
+          <div className="space-y-4">
+            <TextArea placeholder="Share your thoughts, experiences, or questions..." />
+            <Input
+              name="hashtag"
+              label="Add Hashtags"
+              placeholder="e.g., GenderEquality"
+            />
+          </div>
+        </Modal>
       </main>
     </div>
   );
