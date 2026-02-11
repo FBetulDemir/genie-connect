@@ -21,6 +21,62 @@ import {
 import { Input, TextArea } from "@/components/ui/Input";
 import AppShell from "@/components/ui/AppShell";
 import CommentItem from "@/components/ui/CommentItem";
+import PostThread, { Post } from "@/components/ui/PostThread";
+
+const dummyPost: Post = {
+  id: "post-1",
+  avatarEmoji: "😺",
+  name: "Sarah Chen",
+  timeAgo: "2 month ago",
+  title: "How do you handle bias in meetings?",
+  content:
+    "I've noticed that my contributions in faculty meetings are often overlooked or attributed to others. Looking for strategies that have worked for you.",
+  hashtags: ["#allyship", "#career", "#mentorship"],
+  likes: 25,
+  helpful: 8,
+  comments: [
+    {
+      id: "c-1",
+      avatarEmoji: "👩",
+      name: "AllyInTech",
+      timeAgo: "1 hour ago",
+      content:
+        "Absolutely. I think the key is ensuring mentors receive training on inclusive practices, not just technical skills.",
+      likes: 15,
+      replies: [
+        {
+          id: "c-1-1",
+          avatarEmoji: "🤴",
+          name: "ChangeMaker",
+          timeAgo: "45 min ago",
+          content:
+            "Great point! Our org started doing exactly this last quarter and the feedback has been overwhelmingly positive.",
+          likes: 8,
+          replies: [
+            {
+              id: "c-1-1-1",
+              avatarEmoji: "👧",
+              name: "NewVoice",
+              timeAgo: "30 min ago",
+              content:
+                "Would love to hear more about how you structured that training!",
+              likes: 3,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: "c-2",
+      avatarEmoji: "👨",
+      name: "BridgeBuilder",
+      timeAgo: "50 min ago",
+      content:
+        "Peer mentorship circles have worked well for us — it flattens the hierarchy.",
+      likes: 11,
+    },
+  ],
+};
 
 const Sidebar = () => (
   <>
@@ -66,6 +122,20 @@ export default function Home() {
             timeAgo="18 days ago"
             content="I've found that preparing a brief agenda beforehand and sharing it helps establish credibility."
             likes={12}
+          />
+        </CardContent>
+      </Card>
+
+      {/* Post Thread */}
+      <Card className="w-full max-w-md">
+        <CardContent>
+          <PostThread
+            post={dummyPost}
+            onReply={(parentId, content) =>
+              console.log("Reply to", parentId, ":", content)
+            }
+            onLike={(id) => console.log("Liked", id)}
+            onHelpful={(id) => console.log("Helpful", id)}
           />
         </CardContent>
       </Card>
