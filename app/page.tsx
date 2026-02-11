@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/Typography";
 import { Input, TextArea } from "@/components/ui/Input";
 import AppShell from "@/components/ui/AppShell";
+import CommentItem from "@/components/ui/CommentItem";
 
 const Sidebar = () => (
   <>
@@ -56,9 +57,16 @@ export default function Home() {
           <p>
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil
             doloremque, dolorum aliquid minus porro eos dolorem deserunt quasi
-            ratione consequuntur quaerat nostrum eaque perspiciatis
-            praesentium. Nobis dolorem explicabo sequi dolor.
+            ratione consequuntur quaerat nostrum eaque perspiciatis praesentium.
+            Nobis dolorem explicabo sequi dolor.
           </p>
+          <CommentItem
+            avatarEmoji="😺"
+            name="EquityAdvocate"
+            timeAgo="18 days ago"
+            content="I've found that preparing a brief agenda beforehand and sharing it helps establish credibility."
+            likes={12}
+          />
         </CardContent>
       </Card>
       <Card className="w-full max-w-md">
@@ -77,9 +85,7 @@ export default function Home() {
         <BodyText>
           BodyText - Regular body text for paragraphs and content.
         </BodyText>
-        <SmallText>
-          SmallText - Smaller text for captions and hints.
-        </SmallText>
+        <SmallText>SmallText - Smaller text for captions and hints.</SmallText>
         <Label htmlFor="example">Label - For form inputs</Label>
       </div>
 
