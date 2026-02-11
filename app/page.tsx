@@ -3,6 +3,7 @@ import { Avatar, AvatarGroup, AvatarPicker } from "@/components/ui/Avatar";
 import Button from "@/components/ui/Button";
 import { Card, CardContent, CardTitle } from "@/components/ui/Card";
 import Hashtag from "@/components/ui/Hashtag";
+import { PageTitle, SubTitle } from "@/components/ui/Typography";
 
 export default function Home() {
   return (
@@ -33,6 +34,8 @@ export default function Home() {
           </AvatarGroup>
         </Card>
         <Hashtag size="md">#mentorship</Hashtag>
+        <PageTitle>Page Heading</PageTitle>
+        <SubTitle>Section</SubTitle>
       </main>
     </div>
   );
