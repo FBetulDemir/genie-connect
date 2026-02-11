@@ -3,7 +3,19 @@ import { Avatar, AvatarGroup, AvatarPicker } from "@/components/ui/Avatar";
 import Button from "@/components/ui/Button";
 import { Card, CardContent, CardTitle } from "@/components/ui/Card";
 import Hashtag from "@/components/ui/Hashtag";
-import { PageTitle, SubTitle } from "@/components/ui/Typography";
+import IconButton from "@/components/ui/IconButton";
+import HeartIcon from "@/components/icons/HeartIcon";
+import CommentIcon from "@/components/icons/CommentIcon";
+import LikeIcon from "@/components/icons/LikeIcon";
+import {
+  PageTitle,
+  SectionTitle,
+  SubTitle,
+  SmallTitle,
+  BodyText,
+  SmallText,
+  Label,
+} from "@/components/ui/Typography";
 
 export default function Home() {
   return (
@@ -34,8 +46,23 @@ export default function Home() {
           </AvatarGroup>
         </Card>
         <Hashtag size="md">#mentorship</Hashtag>
-        <PageTitle>Page Heading</PageTitle>
-        <SubTitle>Section</SubTitle>
+        {/* Typography */}
+        <div className="space-y-3">
+          <PageTitle>PageTitle - Main heading</PageTitle>
+          <SectionTitle>SectionTitle - Section heading</SectionTitle>
+          <SubTitle>SubTitle - Sub section</SubTitle>
+          <SmallTitle>SmallTitle - Small heading</SmallTitle>
+          <BodyText>BodyText - Regular body text for paragraphs and content.</BodyText>
+          <SmallText>SmallText - Smaller text for captions and hints.</SmallText>
+          <Label htmlFor="example">Label - For form inputs</Label>
+        </div>
+
+        {/* IconButton */}
+        <div className="flex items-center gap-4">
+          <IconButton icon={<HeartIcon />} aria-label="Like" count={42} />
+          <IconButton icon={<CommentIcon />} aria-label="Comments" count={18} />
+          <IconButton icon={<LikeIcon />} aria-label="Helpful" count={15} label="helpful" />
+        </div>
       </main>
     </div>
   );
