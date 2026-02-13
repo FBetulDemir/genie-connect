@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import AppShell from "@/components/ui/AppShell";
 import { Card, CardContent, CardTitle } from "@/components/ui/Card";
 import Hashtag from "@/components/ui/Hashtag";
@@ -54,6 +55,7 @@ const Sidebar = () => (
 );
 
 export default function Home() {
+  const router = useRouter();
   const [posts, setPosts] = useState<PostRow[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -108,7 +110,7 @@ export default function Home() {
                 hashtags={post.hashtags}
                 likes={post.likes_count}
                 helpful={post.helpful_count}
-                onClick={() => console.log("Navigate to post", post.id)}
+                onClick={() => router.push(`/post/${post.id}`)}
               />
             ))}
           </div>
