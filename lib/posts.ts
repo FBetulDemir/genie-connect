@@ -23,6 +23,17 @@ export async function createPost(input: CreatePostInput) {
   return data;
 }
 
+export async function fetchPost(id: number) {
+  const { data, error } = await supabase
+    .from("posts")
+    .select("*, profiles(nickname, avatar_emoji)")
+    .eq("id", id)
+    .single();
+
+  if (error) throw error;
+  return data;
+}
+
 export async function fetchPosts() {
   const { data, error } = await supabase
     .from("posts")
