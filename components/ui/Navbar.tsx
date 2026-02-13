@@ -2,19 +2,19 @@ import React from "react";
 import cn from "@/lib/classnames";
 import LogoIcon from "../icons/LogoIcon";
 import { Avatar } from "./Avatar";
-import CreatePost from "./CreatePost";
+import CreatePost, { CreatePostData } from "./CreatePost";
 
 type NavbarProps = {
   nickname?: string;
   avatarEmoji?: string;
-  onPublish?: (post: { content: string; hashtag: string }) => void;
+  onPublished?: (post: CreatePostData) => void;
   className?: string;
 };
 
 const Navbar = ({
   nickname = "NickName",
   avatarEmoji,
-  onPublish,
+  onPublished,
   className,
 }: NavbarProps) => {
   return (
@@ -43,7 +43,7 @@ const Navbar = ({
           <Avatar emoji={avatarEmoji} size="sm" />
           <span className="text-sm text-[var(--text-primary)]">{nickname}</span>
         </div>
-        <CreatePost onPublish={onPublish} />
+        <CreatePost onPublished={onPublished} />
       </div>
     </nav>
   );

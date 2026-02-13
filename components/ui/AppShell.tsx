@@ -2,10 +2,12 @@ import React from "react";
 import cn from "@/lib/classnames";
 import Navbar from "./Navbar";
 
+import { CreatePostData } from "./CreatePost";
+
 type AppShellProps = {
   nickname?: string;
   avatarEmoji?: string;
-  onPublish?: (post: { content: string; hashtag: string }) => void;
+  onPublished?: (post: CreatePostData) => void;
   children: React.ReactNode;
   sidebar?: React.ReactNode;
   className?: string;
@@ -14,7 +16,7 @@ type AppShellProps = {
 const AppShell = ({
   nickname,
   avatarEmoji,
-  onPublish,
+  onPublished,
   children,
   sidebar,
   className,
@@ -24,7 +26,7 @@ const AppShell = ({
       <Navbar
         nickname={nickname}
         avatarEmoji={avatarEmoji}
-        onPublish={onPublish}
+        onPublished={onPublished}
       />
 
       <div
