@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import cn from "@/lib/classnames";
 import { Avatar } from "./Avatar";
+import { Input } from "./Input";
+import Button from "./Button";
 import IconButton from "./IconButton";
 import HeartIcon from "../icons/HeartIcon";
 import CommentIcon from "../icons/CommentIcon";
@@ -87,30 +89,21 @@ function ReplyNode({
       />
 
       {replyOpen && (
-        <div className="mt-2 ml-10 flex gap-2">
-          <input
-            type="text"
+        <div className="mt-2 ml-10 flex gap-2 items-start">
+          <Input
+            name="reply"
             value={replyText}
             onChange={(e) => setReplyText(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Write a reply..."
-            className={cn(
-              "flex-1 rounded-lg border border-[var(--border-card-default)]",
-              "bg-[var(--surface)] px-3 py-2 text-sm text-[var(--text-primary)]",
-              "placeholder:text-[var(--text-muted)]",
-              "focus:outline-none focus:ring-1 focus:ring-[var(--accent-blue-500)]",
-            )}
+            containerClassName="flex-1"
           />
-          <button
-            type="button"
-            onClick={handleSubmitReply}
-            className={cn(
-              "rounded-lg px-3 py-2 text-sm font-medium",
-              "bg-[var(--accent-blue-500)] text-white",
-              "hover:bg-[var(--accent-blue-600)] transition-colors",
-            )}>
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={handleSubmitReply}>
             Reply
-          </button>
+          </Button>
         </div>
       )}
 
@@ -218,30 +211,21 @@ export default function PostThread({
 
       {/* Add comment input */}
       {commentOpen && (
-        <div className="flex gap-2">
-          <input
-            type="text"
+        <div className="flex gap-2 items-start">
+          <Input
+            name="comment"
             value={commentText}
             onChange={(e) => setCommentText(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Write a comment..."
-            className={cn(
-              "flex-1 rounded-lg border border-[var(--border-card-default)]",
-              "bg-[var(--surface)] px-3 py-2 text-sm text-[var(--text-primary)]",
-              "placeholder:text-[var(--text-muted)]",
-              "focus:outline-none focus:ring-1 focus:ring-[var(--accent-blue-500)]",
-            )}
+            containerClassName="flex-1"
           />
-          <button
-            type="button"
-            onClick={handleSubmitComment}
-            className={cn(
-              "rounded-lg px-3 py-2 text-sm font-medium",
-              "bg-[var(--accent-blue-500)] text-white",
-              "hover:bg-[var(--accent-blue-600)] transition-colors",
-            )}>
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={handleSubmitComment}>
             Comment
-          </button>
+          </Button>
         </div>
       )}
 

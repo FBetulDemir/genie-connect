@@ -49,31 +49,27 @@ export default function WelcomePage() {
 
         {/* Form */}
         <div className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Nickname
-            </label>
-            <input
-              type="text"
-              value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
-              placeholder="Enter your nickname..."
-              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-          </div>
+          <Input
+            name="nickname"
+            label="Nickname"
+            placeholder="Enter your nickname..."
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
+            error={error}
+            className="bg-white border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-blue-500"
+          />
 
           <AvatarPicker selected={avatar} onSelect={setAvatar} />
 
-          {error && (
-            <p className="text-sm text-red-600">{error}</p>
-          )}
-
-          <button
-            onClick={handleContinue}
-            disabled={!canContinue || loading}
-            className="w-full rounded-lg bg-blue-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">
-            {loading ? "Creating profile..." : "Continue to GENIE Connect"}
-          </button>
+          <Button
+            variant="primary"
+            size="lg"
+            className="w-full h-12"
+            disabled={!canContinue}
+            isLoading={loading}
+            onClick={handleContinue}>
+            Continue to GENIE Connect
+          </Button>
         </div>
       </div>
     </div>

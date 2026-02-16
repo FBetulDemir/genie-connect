@@ -5,6 +5,8 @@ import { useParams, useRouter } from "next/navigation";
 import AppShell from "@/components/ui/AppShell";
 import PostThread, { Reply } from "@/components/ui/PostThread";
 import { ToastProvider } from "@/components/ui/Toast";
+import Button from "@/components/ui/Button";
+import EmptyState from "@/components/ui/EmptyState";
 import ArrowLeftIcon from "@/components/icons/ArrowLeftIcon";
 import { fetchPost } from "@/lib/posts";
 import {
@@ -143,9 +145,10 @@ export default function PostDetailPage() {
     return (
       <ToastProvider>
         <AppShell nickname={profile?.nickname} avatarEmoji={profile?.avatar_emoji}>
-          <p className="text-sm text-[var(--text-muted)] py-8 text-center">
-            Post not found.
-          </p>
+          <EmptyState
+            title="Post not found"
+            description="This post may have been deleted or doesn't exist."
+          />
         </AppShell>
       </ToastProvider>
     );
@@ -154,12 +157,14 @@ export default function PostDetailPage() {
   return (
     <ToastProvider>
       <AppShell nickname={profile?.nickname} avatarEmoji={profile?.avatar_emoji}>
-        <button
-          onClick={() => router.push("/")}
-          className="flex items-center gap-1 text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors mb-4">
-          <ArrowLeftIcon className="h-4 w-4" />
+        <Button
+          variant="link"
+          size="sm"
+          leftIcon={<ArrowLeftIcon className="h-4 w-4" />}
+          className="text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:no-underline mb-4"
+          onClick={() => router.push("/")}>
           Back to feed
-        </button>
+        </Button>
 
         <PostThread
           post={{
