@@ -25,6 +25,7 @@ type PostRow = {
     nickname: string;
     avatar_emoji: string;
   } | null;
+  comments: { count: number }[];
 };
 
 function timeAgo(dateStr: string): string {
@@ -109,6 +110,7 @@ export default function Home() {
                 content={post.content}
                 hashtags={post.hashtags}
                 likes={post.likes_count}
+                commentCount={post.comments?.[0]?.count ?? 0}
                 helpful={post.helpful_count}
                 onClick={() => router.push(`/post/${post.id}`)}
               />

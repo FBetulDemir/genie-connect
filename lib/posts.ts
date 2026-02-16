@@ -37,7 +37,7 @@ export async function fetchPost(id: number) {
 export async function fetchPosts() {
   const { data, error } = await supabase
     .from("posts")
-    .select("*, profiles(nickname, avatar_emoji)")
+    .select("*, profiles(nickname, avatar_emoji), comments(count)")
     .order("created_at", { ascending: false });
 
   if (error) throw error;
