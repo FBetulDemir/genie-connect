@@ -9,6 +9,7 @@ import PlusIcon from "../icons/PlusIcon";
 import SendIcon from "../icons/SendIcon";
 import EyeOffIcon from "../icons/EyeOffIcon";
 import { createPost } from "@/lib/posts";
+import { getStoredProfile } from "@/lib/profile";
 import { useToast } from "./Toast";
 
 export type CreatePostData = {
@@ -21,8 +22,6 @@ export type CreatePostData = {
 type CreatePostProps = {
   onPublished?: (post: CreatePostData) => void;
 };
-
-const AUTHOR_ID = 1; // hardcoded profile for now
 
 const CreatePost = ({ onPublished }: CreatePostProps) => {
   const [open, setOpen] = useState(false);
@@ -52,8 +51,11 @@ const CreatePost = ({ onPublished }: CreatePostProps) => {
     setLoading(true);
 
     try {
+      const profile = getStoredProfile();
+      if (!profile) return;
+
       await createPost({
-        authorId: AUTHOR_ID,
+        authorId: profile.id,
         title: title.trim(),
         content: content.trim(),
         hashtags: parsed,

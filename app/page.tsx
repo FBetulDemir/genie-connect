@@ -11,6 +11,7 @@ import CommentIcon from "@/components/icons/CommentIcon";
 import Button from "@/components/ui/Button";
 import PostCard from "@/components/feed/PostCard";
 import { fetchPosts } from "@/lib/posts";
+import { getStoredProfile, Profile } from "@/lib/profile";
 
 type PostRow = {
   id: number;
@@ -58,8 +59,19 @@ const Sidebar = () => (
 
 export default function Home() {
   const router = useRouter();
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [posts, setPosts] = useState<PostRow[]>([]);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const stored = getStoredProfile();
+    if (!stored) {
+      router.push("/welcome");
+      return;
+    }
+    setProfile(stored);
+    loadPosts();
+  }, []);
 
   const loadPosts = async () => {
     try {
@@ -72,15 +84,11 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {
-    loadPosts();
-  }, []);
-
   return (
     <ToastProvider>
       <AppShell
-        nickname="Nicky"
-        avatarEmoji="😺"
+        nickname={profile?.nickname}
+        avatarEmoji={profile?.avatar_emoji}
         onPublished={() => loadPosts()}
         sidebar={<Sidebar />}>
         {loading ? (

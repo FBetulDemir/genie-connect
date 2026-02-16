@@ -13,8 +13,7 @@ import {
   buildCommentTree,
   CommentNode,
 } from "@/lib/comments";
-
-const AUTHOR_ID = 1; // hardcoded profile for now
+import { getStoredProfile, Profile } from "@/lib/profile";
 
 function timeAgo(dateStr: string): string {
   const now = Date.now();
@@ -46,6 +45,7 @@ export default function PostDetailPage() {
   const params = useParams();
   const router = useRouter();
   const postId = Number(params.id);
+  const [profile, setProfile] = useState<Profile | null>(null);
 
   const [post, setPost] = useState<{
     id: number;
@@ -79,6 +79,12 @@ export default function PostDetailPage() {
   };
 
   useEffect(() => {
+    const stored = getStoredProfile();
+    if (!stored) {
+      router.push("/welcome");
+      return;
+    }
+    setProfile(stored);
     if (postId) loadData();
   }, [postId]);
 
@@ -108,7 +114,7 @@ export default function PostDetailPage() {
       await createComment({
         postId,
         parentId: parentCommentId,
-        authorId: AUTHOR_ID,
+        authorId: profile!.id,
         content,
         depth,
       });
@@ -124,7 +130,7 @@ export default function PostDetailPage() {
   if (loading) {
     return (
       <ToastProvider>
-        <AppShell nickname="Nicky" avatarEmoji="😺">
+        <AppShell nickname={profile?.nickname} avatarEmoji={profile?.avatar_emoji}>
           <p className="text-sm text-[var(--text-muted)] py-8 text-center">
             Loading post...
           </p>
@@ -136,7 +142,7 @@ export default function PostDetailPage() {
   if (!post) {
     return (
       <ToastProvider>
-        <AppShell nickname="Nicky" avatarEmoji="😺">
+        <AppShell nickname={profile?.nickname} avatarEmoji={profile?.avatar_emoji}>
           <p className="text-sm text-[var(--text-muted)] py-8 text-center">
             Post not found.
           </p>
@@ -147,7 +153,7 @@ export default function PostDetailPage() {
 
   return (
     <ToastProvider>
-      <AppShell nickname="Nicky" avatarEmoji="😺">
+      <AppShell nickname={profile?.nickname} avatarEmoji={profile?.avatar_emoji}>
         <button
           onClick={() => router.push("/")}
           className="flex items-center gap-1 text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors mb-4">
