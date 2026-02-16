@@ -1,16 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import Modal from "./Modal";
-import { Input, TextArea } from "./Input";
-import Button from "./Button";
-import Toggle from "./Toggle";
+import Modal from "../ui/Modal";
+import { Input, TextArea } from "../ui/Input";
+import Button from "../ui/Button";
+import Toggle from "../ui/Toggle";
 import PlusIcon from "../icons/PlusIcon";
 import SendIcon from "../icons/SendIcon";
 import EyeOffIcon from "../icons/EyeOffIcon";
 import { createPost } from "@/lib/posts";
 import { getStoredProfile } from "@/lib/profile";
-import { useToast } from "./Toast";
+import { useToast } from "../ui/Toast";
 
 export type CreatePostData = {
   title: string;

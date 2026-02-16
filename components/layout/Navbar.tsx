@@ -1,8 +1,8 @@
 import React from "react";
 import cn from "@/lib/classnames";
 import LogoIcon from "../icons/LogoIcon";
-import { Avatar } from "./Avatar";
-import CreatePost, { CreatePostData } from "./CreatePost";
+import { Avatar } from "../ui/Avatar";
+import CreatePost, { CreatePostData } from "../feed/CreatePost";
 
 type NavbarProps = {
   nickname?: string;

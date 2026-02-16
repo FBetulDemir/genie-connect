@@ -2,14 +2,14 @@
 
 import React, { useState } from "react";
 import cn from "@/lib/classnames";
-import { Avatar } from "./Avatar";
-import { Input } from "./Input";
-import Button from "./Button";
-import IconButton from "./IconButton";
+import { Avatar } from "../ui/Avatar";
+import { Input } from "../ui/Input";
+import Button from "../ui/Button";
+import IconButton from "../ui/IconButton";
 import HeartIcon from "../icons/HeartIcon";
 import CommentIcon from "../icons/CommentIcon";
 import LikeIcon from "../icons/LikeIcon";
-import Hashtag from "./Hashtag";
+import Hashtag from "../ui/Hashtag";
 import CommentItem from "./CommentItem";
 
 const MAX_REPLY_DEPTH = 3;
@@ -98,10 +98,7 @@ function ReplyNode({
             placeholder="Write a reply..."
             containerClassName="flex-1"
           />
-          <Button
-            variant="primary"
-            size="sm"
-            onClick={handleSubmitReply}>
+          <Button variant="primary" size="sm" onClick={handleSubmitReply}>
             Reply
           </Button>
         </div>
@@ -220,10 +217,7 @@ export default function PostThread({
             placeholder="Write a comment..."
             containerClassName="flex-1"
           />
-          <Button
-            variant="primary"
-            size="sm"
-            onClick={handleSubmitComment}>
+          <Button variant="primary" size="sm" onClick={handleSubmitComment}>
             Comment
           </Button>
         </div>
@@ -249,8 +243,5 @@ export default function PostThread({
 
 function countReplies(replies?: Reply[]): number {
   if (!replies) return 0;
-  return replies.reduce(
-    (sum, r) => sum + 1 + countReplies(r.replies),
-    0,
-  );
+  return replies.reduce((sum, r) => sum + 1 + countReplies(r.replies), 0);
 }

@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import AppShell from "@/components/ui/AppShell";
-import PostThread, { Reply } from "@/components/ui/PostThread";
+import AppShell from "@/components/layout/AppShell";
+import PostThread, { Reply } from "@/components/feed/PostThread";
 import { ToastProvider } from "@/components/ui/Toast";
 import Button from "@/components/ui/Button";
 import EmptyState from "@/components/ui/EmptyState";
@@ -132,7 +132,9 @@ export default function PostDetailPage() {
   if (loading) {
     return (
       <ToastProvider>
-        <AppShell nickname={profile?.nickname} avatarEmoji={profile?.avatar_emoji}>
+        <AppShell
+          nickname={profile?.nickname}
+          avatarEmoji={profile?.avatar_emoji}>
           <p className="text-sm text-[var(--text-muted)] py-8 text-center">
             Loading post...
           </p>
@@ -144,7 +146,9 @@ export default function PostDetailPage() {
   if (!post) {
     return (
       <ToastProvider>
-        <AppShell nickname={profile?.nickname} avatarEmoji={profile?.avatar_emoji}>
+        <AppShell
+          nickname={profile?.nickname}
+          avatarEmoji={profile?.avatar_emoji}>
           <EmptyState
             title="Post not found"
             description="This post may have been deleted or doesn't exist."
@@ -156,7 +160,9 @@ export default function PostDetailPage() {
 
   return (
     <ToastProvider>
-      <AppShell nickname={profile?.nickname} avatarEmoji={profile?.avatar_emoji}>
+      <AppShell
+        nickname={profile?.nickname}
+        avatarEmoji={profile?.avatar_emoji}>
         <Button
           variant="link"
           size="sm"
@@ -169,8 +175,12 @@ export default function PostDetailPage() {
         <PostThread
           post={{
             id: String(post.id),
-            avatarEmoji: post.is_anonymous ? undefined : post.profiles?.avatar_emoji,
-            name: post.is_anonymous ? "Anonymous" : (post.profiles?.nickname ?? "Anonymous"),
+            avatarEmoji: post.is_anonymous
+              ? undefined
+              : post.profiles?.avatar_emoji,
+            name: post.is_anonymous
+              ? "Anonymous"
+              : (post.profiles?.nickname ?? "Anonymous"),
             timeAgo: timeAgo(post.created_at),
             title: post.title,
             content: post.content,

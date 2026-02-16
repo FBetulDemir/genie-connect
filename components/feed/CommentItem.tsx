@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "@/lib/classnames";
-import { Avatar } from "./Avatar";
-import IconButton from "./IconButton";
+import { Avatar } from "../ui/Avatar";
+import IconButton from "../ui/IconButton";
 import HeartIcon from "../icons/HeartIcon";
 import ReplyIcon from "../icons/ReplyIcon";
 

@@ -2,7 +2,7 @@ import React from "react";
 import cn from "@/lib/classnames";
 import Navbar from "./Navbar";
 
-import { CreatePostData } from "./CreatePost";
+import { CreatePostData } from "../feed/CreatePost";
 
 type AppShellProps = {
   nickname?: string;
