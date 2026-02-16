@@ -5,6 +5,7 @@ type CreatePostInput = {
   title: string;
   content: string;
   hashtags: string[];
+  isAnonymous: boolean;
 };
 
 export async function createPost(input: CreatePostInput) {
@@ -15,6 +16,7 @@ export async function createPost(input: CreatePostInput) {
       title: input.title,
       content: input.content,
       hashtags: input.hashtags,
+      is_anonymous: input.isAnonymous,
     })
     .select()
     .single();

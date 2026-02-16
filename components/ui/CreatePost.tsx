@@ -57,6 +57,7 @@ const CreatePost = ({ onPublished }: CreatePostProps) => {
         title: title.trim(),
         content: content.trim(),
         hashtags: parsed,
+        isAnonymous: anonymous,
       });
 
       const postData: CreatePostData = {

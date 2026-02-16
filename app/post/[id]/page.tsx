@@ -55,6 +55,7 @@ export default function PostDetailPage() {
     likes_count: number;
     helpful_count: number;
     created_at: string;
+    is_anonymous: boolean;
     profiles: { nickname: string; avatar_emoji: string } | null;
   } | null>(null);
 
@@ -157,8 +158,8 @@ export default function PostDetailPage() {
         <PostThread
           post={{
             id: String(post.id),
-            avatarEmoji: post.profiles?.avatar_emoji,
-            name: post.profiles?.nickname ?? "Anonymous",
+            avatarEmoji: post.is_anonymous ? undefined : post.profiles?.avatar_emoji,
+            name: post.is_anonymous ? "Anonymous" : (post.profiles?.nickname ?? "Anonymous"),
             timeAgo: timeAgo(post.created_at),
             title: post.title,
             content: post.content,

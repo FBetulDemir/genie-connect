@@ -25,6 +25,7 @@ type PostRow = {
     nickname: string;
     avatar_emoji: string;
   } | null;
+  is_anonymous: boolean;
   comments: { count: number }[];
 };
 
@@ -103,8 +104,8 @@ export default function Home() {
               <PostCard
                 key={post.id}
                 id={String(post.id)}
-                avatarEmoji={post.profiles?.avatar_emoji}
-                name={post.profiles?.nickname ?? "Anonymous"}
+                avatarEmoji={post.is_anonymous ? undefined : post.profiles?.avatar_emoji}
+                name={post.is_anonymous ? "Anonymous" : (post.profiles?.nickname ?? "Anonymous")}
                 timeAgo={timeAgo(post.created_at)}
                 title={post.title}
                 content={post.content}
