@@ -10,7 +10,7 @@ import EmptyState from "@/components/ui/EmptyState";
 import CommentIcon from "@/components/icons/CommentIcon";
 import Button from "@/components/ui/Button";
 import PostCard from "@/components/feed/PostCard";
-import { fetchPosts } from "@/lib/posts";
+import { fetchPosts, toggleHelpful, getUserHelpfuls } from "@/lib/posts";
 import { getStoredProfile, Profile } from "@/lib/profile";
 
 type PostRow = {
@@ -61,6 +61,7 @@ export default function Home() {
   const router = useRouter();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [posts, setPosts] = useState<PostRow[]>([]);
+  const [helpfulSet, setHelpfulSet] = useState<Set<number>>(new Set());
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -70,18 +71,39 @@ export default function Home() {
       return;
     }
     setProfile(stored);
-    loadPosts();
+    loadPosts(stored.id);
   }, []);
 
-  const loadPosts = async () => {
+  const loadPosts = async (userId?: number) => {
     try {
       const data = await fetchPosts();
-      setPosts(data as PostRow[]);
+      const rows = data as PostRow[];
+      setPosts(rows);
+      if (userId) {
+        const ids = rows.map((p) => p.id);
+        const set = await getUserHelpfuls(userId, ids);
+        setHelpfulSet(set);
+      }
     } catch (err) {
       console.error("Failed to fetch posts:", err);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleHelpful = async (id: string) => {
+    if (!profile) return;
+    const postId = Number(id);
+    const { active, count } = await toggleHelpful(postId, profile.id);
+    setPosts((prev) =>
+      prev.map((p) => (p.id === postId ? { ...p, helpful_count: count } : p)),
+    );
+    setHelpfulSet((prev) => {
+      const next = new Set(prev);
+      if (active) next.add(postId);
+      else next.delete(postId);
+      return next;
+    });
   };
 
   return (
@@ -127,6 +149,8 @@ export default function Home() {
                 likes={post.likes_count}
                 commentCount={post.comments?.[0]?.count ?? 0}
                 helpful={post.helpful_count}
+                helpfulActive={helpfulSet.has(post.id)}
+                onHelpful={handleHelpful}
                 onClick={() => router.push(`/post/${post.id}`)}
               />
             ))}

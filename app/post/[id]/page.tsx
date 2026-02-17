@@ -8,7 +8,7 @@ import { ToastProvider } from "@/components/ui/Toast";
 import Button from "@/components/ui/Button";
 import EmptyState from "@/components/ui/EmptyState";
 import ArrowLeftIcon from "@/components/icons/ArrowLeftIcon";
-import { fetchPost } from "@/lib/posts";
+import { fetchPost, toggleHelpful, getUserHelpfuls } from "@/lib/posts";
 import {
   fetchComments,
   createComment,
@@ -62,9 +62,10 @@ export default function PostDetailPage() {
   } | null>(null);
 
   const [comments, setComments] = useState<Reply[]>([]);
+  const [helpfulActive, setHelpfulActive] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const loadData = async () => {
+  const loadData = async (userId: number) => {
     try {
       const [postData, commentsData] = await Promise.all([
         fetchPost(postId),
@@ -73,6 +74,8 @@ export default function PostDetailPage() {
       setPost(postData);
       const tree = buildCommentTree(commentsData);
       setComments(tree.map(nodeToReply));
+      const set = await getUserHelpfuls(userId, [postId]);
+      setHelpfulActive(set.has(postId));
     } catch (err) {
       console.error("Failed to load post:", err);
     } finally {
@@ -87,8 +90,15 @@ export default function PostDetailPage() {
       return;
     }
     setProfile(stored);
-    if (postId) loadData();
+    if (postId) loadData(stored.id);
   }, [postId]);
+
+  const handleHelpful = async () => {
+    if (!profile || !post) return;
+    const { active, count } = await toggleHelpful(post.id, profile.id);
+    setHelpfulActive(active);
+    setPost((prev) => (prev ? { ...prev, helpful_count: count } : prev));
+  };
 
   const handleReply = async (parentId: string, content: string) => {
     // If parentId matches the post id, it's a top-level comment
@@ -189,6 +199,8 @@ export default function PostDetailPage() {
             helpful: post.helpful_count,
             comments,
           }}
+          helpfulActive={helpfulActive}
+          onHelpful={handleHelpful}
           onReply={handleReply}
         />
       </AppShell>

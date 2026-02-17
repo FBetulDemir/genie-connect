@@ -39,6 +39,7 @@ export type Post = {
 
 type PostThreadProps = {
   post: Post;
+  helpfulActive?: boolean;
   onReply?: (parentId: string, content: string) => void;
   onLike?: (id: string) => void;
   onHelpful?: (id: string) => void;
@@ -123,6 +124,7 @@ function ReplyNode({
 
 export default function PostThread({
   post,
+  helpfulActive,
   onReply,
   onLike,
   onHelpful,
@@ -201,6 +203,7 @@ export default function PostThread({
             aria-label="Helpful"
             count={post.helpful}
             label="helpful"
+            active={helpfulActive}
             onClick={() => onHelpful?.(post.id)}
           />
         </div>

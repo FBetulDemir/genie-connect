@@ -17,6 +17,7 @@ type PostCardProps = {
   likes?: number;
   commentCount?: number;
   helpful?: number;
+  helpfulActive?: boolean;
   onClick?: () => void;
   onLike?: (id: string) => void;
   onHelpful?: (id: string) => void;
@@ -34,6 +35,7 @@ export default function PostCard({
   likes,
   commentCount,
   helpful,
+  helpfulActive,
   onClick,
   onLike,
   onHelpful,
@@ -104,6 +106,7 @@ export default function PostCard({
           aria-label="Helpful"
           count={helpful}
           label="helpful"
+          active={helpfulActive}
           onClick={() => onHelpful?.(id)}
         />
       </div>
