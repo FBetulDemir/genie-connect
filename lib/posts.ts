@@ -89,3 +89,44 @@ export async function getUserHelpfuls(userId: number, postIds: number[]): Promis
     .in("post_id", postIds);
   return new Set((data ?? []).map((r) => r.post_id));
 }
+
+/** Toggle like on/off for a post. Returns the new count and whether the user now has it active. */
+export async function toggleLike(postId: number, userId: number) {
+  const { data: existing } = await supabase
+    .from("post_likes")
+    .select("id")
+    .eq("post_id", postId)
+    .eq("user_id", userId)
+    .maybeSingle();
+
+  if (existing) {
+    await supabase.from("post_likes").delete().eq("id", existing.id);
+  } else {
+    const { error } = await supabase
+      .from("post_likes")
+      .insert({ post_id: postId, user_id: userId });
+    if (error) throw error;
+  }
+
+  const { count } = await supabase
+    .from("post_likes")
+    .select("*", { count: "exact", head: true })
+    .eq("post_id", postId);
+
+  const newCount = count ?? 0;
+
+  await supabase.from("posts").update({ likes_count: newCount }).eq("id", postId);
+
+  return { active: !existing, count: newCount };
+}
+
+/** Get the set of post IDs that a user has liked. */
+export async function getUserLikes(userId: number, postIds: number[]): Promise<Set<number>> {
+  if (postIds.length === 0) return new Set();
+  const { data } = await supabase
+    .from("post_likes")
+    .select("post_id")
+    .eq("user_id", userId)
+    .in("post_id", postIds);
+  return new Set((data ?? []).map((r) => r.post_id));
+}

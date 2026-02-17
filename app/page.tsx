@@ -10,9 +10,10 @@ import EmptyState from "@/components/ui/EmptyState";
 import CommentIcon from "@/components/icons/CommentIcon";
 import Button from "@/components/ui/Button";
 import PostCard from "@/components/feed/PostCard";
-import { fetchPosts, toggleHelpful, getUserHelpfuls } from "@/lib/posts";
+import { fetchPosts, toggleHelpful, getUserHelpfuls, toggleLike, getUserLikes } from "@/lib/posts";
 import { getStoredProfile, Profile } from "@/lib/profile";
 
+// shape of a post row coming from supabase (includes joined profile + comment count)
 type PostRow = {
   id: number;
   author_id: number;
@@ -30,6 +31,7 @@ type PostRow = {
   comments: { count: number }[];
 };
 
+// turns a date string into something like "5m ago" or "2d ago"
 function timeAgo(dateStr: string): string {
   const now = Date.now();
   const diff = now - new Date(dateStr).getTime();
@@ -44,6 +46,7 @@ function timeAgo(dateStr: string): string {
   return `${months}mo ago`;
 }
 
+// hardcoded trending topics for now — will be dynamic later
 const Sidebar = () => (
   <Card>
     <CardContent className="space-y-2">
@@ -61,9 +64,12 @@ export default function Home() {
   const router = useRouter();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [posts, setPosts] = useState<PostRow[]>([]);
+  // keep track of which posts this user already liked / marked helpful
   const [helpfulSet, setHelpfulSet] = useState<Set<number>>(new Set());
+  const [likeSet, setLikeSet] = useState<Set<number>>(new Set());
   const [loading, setLoading] = useState(true);
 
+  // on first load: grab profile from localStorage, redirect to welcome if none
   useEffect(() => {
     const stored = getStoredProfile();
     if (!stored) {
@@ -74,6 +80,7 @@ export default function Home() {
     loadPosts(stored.id);
   }, []);
 
+  // fetch all posts, then check which ones this user already liked/helpfuled
   const loadPosts = async (userId?: number) => {
     try {
       const data = await fetchPosts();
@@ -81,8 +88,12 @@ export default function Home() {
       setPosts(rows);
       if (userId) {
         const ids = rows.map((p) => p.id);
-        const set = await getUserHelpfuls(userId, ids);
-        setHelpfulSet(set);
+        const [helpfuls, likes] = await Promise.all([
+          getUserHelpfuls(userId, ids),
+          getUserLikes(userId, ids),
+        ]);
+        setHelpfulSet(helpfuls);
+        setLikeSet(likes);
       }
     } catch (err) {
       console.error("Failed to fetch posts:", err);
@@ -91,6 +102,23 @@ export default function Home() {
     }
   };
 
+  // toggle like on a post — updates the count and highlights/unhighlights the heart
+  const handleLike = async (id: string) => {
+    if (!profile) return;
+    const postId = Number(id);
+    const { active, count } = await toggleLike(postId, profile.id);
+    setPosts((prev) =>
+      prev.map((p) => (p.id === postId ? { ...p, likes_count: count } : p)),
+    );
+    setLikeSet((prev) => {
+      const next = new Set(prev);
+      if (active) next.add(postId);
+      else next.delete(postId);
+      return next;
+    });
+  };
+
+  // same idea but for the "helpful" button
   const handleHelpful = async (id: string) => {
     if (!profile) return;
     const postId = Number(id);
@@ -111,7 +139,7 @@ export default function Home() {
       <AppShell
         nickname={profile?.nickname}
         avatarEmoji={profile?.avatar_emoji}
-        onPublished={() => loadPosts()}
+        onPublished={() => loadPosts()} // refresh feed after creating a new post
         sidebar={<Sidebar />}>
         {loading ? (
           <p className="text-sm text-[var(--text-muted)] py-8 text-center">
@@ -134,6 +162,7 @@ export default function Home() {
               <PostCard
                 key={post.id}
                 id={String(post.id)}
+                // hide avatar & name if the post was published anonymously
                 avatarEmoji={
                   post.is_anonymous ? undefined : post.profiles?.avatar_emoji
                 }
@@ -149,7 +178,9 @@ export default function Home() {
                 likes={post.likes_count}
                 commentCount={post.comments?.[0]?.count ?? 0}
                 helpful={post.helpful_count}
+                likeActive={likeSet.has(post.id)}
                 helpfulActive={helpfulSet.has(post.id)}
+                onLike={handleLike}
                 onHelpful={handleHelpful}
                 onClick={() => router.push(`/post/${post.id}`)}
               />

@@ -40,6 +40,7 @@ export type Post = {
 type PostThreadProps = {
   post: Post;
   helpfulActive?: boolean;
+  likeActive?: boolean;
   onReply?: (parentId: string, content: string) => void;
   onLike?: (id: string) => void;
   onHelpful?: (id: string) => void;
@@ -125,6 +126,7 @@ function ReplyNode({
 export default function PostThread({
   post,
   helpfulActive,
+  likeActive,
   onReply,
   onLike,
   onHelpful,
@@ -190,6 +192,7 @@ export default function PostThread({
             icon={<HeartIcon />}
             aria-label="Like"
             count={post.likes}
+            active={likeActive}
             onClick={() => onLike?.(post.id)}
           />
           <IconButton

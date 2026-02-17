@@ -8,7 +8,7 @@ import { ToastProvider } from "@/components/ui/Toast";
 import Button from "@/components/ui/Button";
 import EmptyState from "@/components/ui/EmptyState";
 import ArrowLeftIcon from "@/components/icons/ArrowLeftIcon";
-import { fetchPost, toggleHelpful, getUserHelpfuls } from "@/lib/posts";
+import { fetchPost, toggleHelpful, getUserHelpfuls, toggleLike, getUserLikes } from "@/lib/posts";
 import {
   fetchComments,
   createComment,
@@ -63,6 +63,7 @@ export default function PostDetailPage() {
 
   const [comments, setComments] = useState<Reply[]>([]);
   const [helpfulActive, setHelpfulActive] = useState(false);
+  const [likeActive, setLikeActive] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const loadData = async (userId: number) => {
@@ -74,8 +75,12 @@ export default function PostDetailPage() {
       setPost(postData);
       const tree = buildCommentTree(commentsData);
       setComments(tree.map(nodeToReply));
-      const set = await getUserHelpfuls(userId, [postId]);
-      setHelpfulActive(set.has(postId));
+      const [helpfuls, likes] = await Promise.all([
+        getUserHelpfuls(userId, [postId]),
+        getUserLikes(userId, [postId]),
+      ]);
+      setHelpfulActive(helpfuls.has(postId));
+      setLikeActive(likes.has(postId));
     } catch (err) {
       console.error("Failed to load post:", err);
     } finally {
@@ -92,6 +97,13 @@ export default function PostDetailPage() {
     setProfile(stored);
     if (postId) loadData(stored.id);
   }, [postId]);
+
+  const handleLike = async () => {
+    if (!profile || !post) return;
+    const { active, count } = await toggleLike(post.id, profile.id);
+    setLikeActive(active);
+    setPost((prev) => (prev ? { ...prev, likes_count: count } : prev));
+  };
 
   const handleHelpful = async () => {
     if (!profile || !post) return;
@@ -199,7 +211,9 @@ export default function PostDetailPage() {
             helpful: post.helpful_count,
             comments,
           }}
+          likeActive={likeActive}
           helpfulActive={helpfulActive}
+          onLike={handleLike}
           onHelpful={handleHelpful}
           onReply={handleReply}
         />
