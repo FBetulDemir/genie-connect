@@ -131,6 +131,18 @@ export async function getUserLikes(userId: number, postIds: number[]): Promise<S
   return new Set((data ?? []).map((r) => r.post_id));
 }
 
+/** Fetch posts created by a specific user, newest first. */
+export async function fetchUserPosts(userId: number) {
+  const { data, error } = await supabase
+    .from("posts")
+    .select("*, profiles(nickname, avatar_emoji), comments(count)")
+    .eq("author_id", userId)
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+  return data;
+}
+
 /** Get the top hashtags across all posts, sorted by how often they appear. */
 export async function fetchHashtagCounts(): Promise<{ tag: string; count: number }[]> {
   const { data, error } = await supabase.rpc("get_hashtag_counts");

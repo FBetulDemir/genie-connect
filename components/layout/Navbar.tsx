@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import cn from "@/lib/classnames";
 import LogoIcon from "../icons/LogoIcon";
 import { Avatar } from "../ui/Avatar";
@@ -39,10 +40,10 @@ const Navbar = ({
 
       {/* Right: avatar + new post */}
       <div className="flex items-center gap-4">
-        <div className="flex items-center gap-2">
+        <Link href="/profile" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
           <Avatar emoji={avatarEmoji} size="sm" />
           <span className="text-sm text-[var(--text-primary)]">{nickname}</span>
-        </div>
+        </Link>
         <CreatePost onPublished={onPublished} />
       </div>
     </nav>

@@ -48,3 +48,51 @@ export async function createProfile(nickname: string, avatarEmoji: string) {
   storeProfile(profile);
   return profile;
 }
+
+export async function updateProfile(id: number, nickname: string, avatarEmoji: string) {
+  const { data, error } = await supabase
+    .from("profiles")
+    .update({ nickname, avatar_emoji: avatarEmoji })
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) throw error;
+
+  const profile: Profile = {
+    id: data.id,
+    nickname: data.nickname,
+    avatar_emoji: data.avatar_emoji,
+  };
+
+  storeProfile(profile);
+  return profile;
+}
+
+export async function fetchUserStats(userId: number) {
+  const [posts, likes, comments, helpfuls] = await Promise.all([
+    supabase
+      .from("posts")
+      .select("*", { count: "exact", head: true })
+      .eq("author_id", userId),
+    supabase
+      .from("post_likes")
+      .select("*", { count: "exact", head: true })
+      .eq("user_id", userId),
+    supabase
+      .from("comments")
+      .select("*", { count: "exact", head: true })
+      .eq("author_id", userId),
+    supabase
+      .from("post_helpfuls")
+      .select("*", { count: "exact", head: true })
+      .eq("user_id", userId),
+  ]);
+
+  return {
+    posts: posts.count ?? 0,
+    likes: likes.count ?? 0,
+    comments: comments.count ?? 0,
+    helpful: helpfuls.count ?? 0,
+  };
+}
