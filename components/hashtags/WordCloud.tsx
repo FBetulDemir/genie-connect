@@ -13,13 +13,20 @@ type WordCloudProps = {
   className?: string;
 };
 
-function getSize(count: number, max: number): string {
-  const ratio = max > 0 ? count / max : 0;
-  if (ratio > 0.8) return "text-2xl font-semibold";
-  if (ratio > 0.6) return "text-xl font-semibold";
-  if (ratio > 0.4) return "text-lg font-medium";
-  if (ratio > 0.2) return "text-base font-medium";
-  return "text-sm font-normal";
+// maps count to a font size between 0.75rem and 2rem — every tag gets a unique-ish size
+function getFontSize(count: number, min: number, max: number): number {
+  if (max === min) return 1.125;
+  const ratio = (count - min) / (max - min);
+  return 0.75 + ratio * 1.25;
+}
+
+// heavier weight for bigger tags so they really stand out
+function getFontWeight(count: number, min: number, max: number): number {
+  if (max === min) return 500;
+  const ratio = (count - min) / (max - min);
+  if (ratio > 0.6) return 700;
+  if (ratio > 0.3) return 600;
+  return 400;
 }
 
 function getColor(index: number): string {
@@ -38,7 +45,9 @@ export default function WordCloud({
   onTagClick,
   className,
 }: WordCloudProps) {
-  const max = Math.max(...items.map((i) => i.count), 1);
+  const counts = items.map((i) => i.count);
+  const max = Math.max(...counts, 1);
+  const min = Math.min(...counts, 0);
 
   return (
     <div
@@ -51,9 +60,12 @@ export default function WordCloud({
           key={item.tag}
           type="button"
           onClick={() => onTagClick?.(item.tag)}
+          style={{
+            fontSize: `${getFontSize(item.count, min, max)}rem`,
+            fontWeight: getFontWeight(item.count, min, max),
+          }}
           className={cn(
             "transition-opacity hover:opacity-80",
-            getSize(item.count, max),
             getColor(index),
           )}>
           {item.tag}

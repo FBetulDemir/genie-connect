@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import AppShell from "@/components/layout/AppShell";
-import { Card, CardContent, CardTitle } from "@/components/ui/Card";
-import Hashtag from "@/components/ui/Hashtag";
+import Sidebar from "@/components/layout/Sidebar";
 import { ToastProvider } from "@/components/ui/Toast";
 import EmptyState from "@/components/ui/EmptyState";
 import CommentIcon from "@/components/icons/CommentIcon";
@@ -45,20 +44,6 @@ function timeAgo(dateStr: string): string {
   const months = Math.floor(days / 30);
   return `${months}mo ago`;
 }
-
-// hardcoded trending topics for now — will be dynamic later
-const Sidebar = () => (
-  <Card>
-    <CardContent className="space-y-2">
-      <CardTitle>Trending Topics</CardTitle>
-      <div className="flex flex-wrap gap-2">
-        <Hashtag size="md">#mentorship</Hashtag>
-        <Hashtag size="md">#allyship</Hashtag>
-        <Hashtag size="md">#career</Hashtag>
-      </div>
-    </CardContent>
-  </Card>
-);
 
 export default function Home() {
   const router = useRouter();

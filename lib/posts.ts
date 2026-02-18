@@ -130,3 +130,10 @@ export async function getUserLikes(userId: number, postIds: number[]): Promise<S
     .in("post_id", postIds);
   return new Set((data ?? []).map((r) => r.post_id));
 }
+
+/** Get the top hashtags across all posts, sorted by how often they appear. */
+export async function fetchHashtagCounts(): Promise<{ tag: string; count: number }[]> {
+  const { data, error } = await supabase.rpc("get_hashtag_counts");
+  if (error) throw error;
+  return (data ?? []) as { tag: string; count: number }[];
+}
