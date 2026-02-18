@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardTitle } from "@/components/ui/Card";
 import WordCloud from "@/components/hashtags/WordCloud";
+import AskAI from "@/components/ai/AskAI";
 import { fetchHashtagCounts } from "@/lib/posts";
 
 type HashtagItem = { tag: string; count: number };
@@ -33,6 +34,7 @@ function TrendingTopics() {
 export default function Sidebar() {
   return (
     <div className="space-y-6">
+      <AskAI />
       <TrendingTopics />
     </div>
   );
