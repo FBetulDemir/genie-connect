@@ -2,25 +2,29 @@
 
 import cn from "@/lib/classnames";
 
+// each hashtag has a name and how many times it's been used
 type WordCloudItem = {
   tag: string;
   count: number;
 };
 
 type WordCloudProps = {
-  items: WordCloudItem[];
-  onTagClick?: (tag: string) => void;
+  items: WordCloudItem[]; // the list of hashtags to display
+  onTagClick?: (tag: string) => void; // called when someone clicks a bubble
+  activeTag?: string; // which tag is currently selected (if any)
   className?: string;
 };
 
-/** Map count → pill size tier (padding + font size). Biggest count = biggest bubble. */
+// figures out how big a bubble should be based on how popular the tag is.
+// we compare each tag's count against the lowest and highest in the list,
+// then pick a size tier from xs (tiny) to xl (huge).
 function getSizeTier(
   count: number,
   min: number,
   max: number,
 ): "xs" | "sm" | "md" | "lg" | "xl" {
-  if (max === min) return "md";
-  const ratio = (count - min) / (max - min);
+  if (max === min) return "md"; // all tags have the same count, so just use medium
+  const ratio = (count - min) / (max - min); // 0 = least popular, 1 = most popular
   if (ratio > 0.8) return "xl";
   if (ratio > 0.55) return "lg";
   if (ratio > 0.3) return "md";
@@ -28,6 +32,7 @@ function getSizeTier(
   return "xs";
 }
 
+// tailwind classes for each size tier — bigger tiers get larger text and more padding
 const sizeClasses: Record<string, string> = {
   xs: "text-[0.65rem] px-3 py-1",
   sm: "text-xs px-3.5 py-1.5",
@@ -36,11 +41,16 @@ const sizeClasses: Record<string, string> = {
   xl: "text-lg px-6 py-3 font-semibold",
 };
 
+// renders hashtags as glowing oval shaped bubbles.
+// the more a tag is used, the bigger its bubble.
+// clicking a bubble filters the feed to show only posts with that tag.
 export default function WordCloud({
   items,
   onTagClick,
+  activeTag,
   className,
 }: WordCloudProps) {
+  // grab the min and max counts to scale bubble sizes
   const counts = items.map((i) => i.count);
   const max = Math.max(...counts, 1);
   const min = Math.min(...counts, 0);
@@ -53,19 +63,27 @@ export default function WordCloud({
       )}>
       {items.map((item) => {
         const tier = getSizeTier(item.count, min, max);
+
+        // strip the leading # so we can compare consistently
+        const rawTag = item.tag.replace(/^#/, "");
+        const isActive = activeTag === rawTag || activeTag === item.tag;
+
         return (
           <button
             key={item.tag}
             type="button"
-            onClick={() => onTagClick?.(item.tag)}
+            onClick={() => onTagClick?.(rawTag)}
             className={cn(
-              "rounded-full border border-[var(--accent-blue-500)] text-[var(--text-primary)]",
-              "bg-[var(--surface-muted)]",
-              "shadow-[0_0_6px_var(--accent-blue-500)]",
-              "hover:shadow-[0_0_12px_var(--accent-blue-500)] hover:bg-[var(--accent-blue-500)]/10",
+              // base: rounded pill with a border and smooth transitions
+              "rounded-full border text-[var(--text-primary)]",
               "transition-all duration-200",
               sizeClasses[tier],
+              // active tag gets a brighter glow to know which one is selected
+              isActive
+                ? "border-[var(--accent-blue-400)] bg-[var(--accent-blue-500)]/20 shadow-[0_0_14px_var(--accent-blue-400)]"
+                : "border-[var(--accent-blue-500)] bg-[var(--surface-muted)] shadow-[0_0_6px_var(--accent-blue-500)] hover:shadow-[0_0_12px_var(--accent-blue-500)] hover:bg-[var(--accent-blue-500)]/10",
             )}>
+            {/* show the tag with a # prefix, but don't double up if it already has one */}
             {item.tag.startsWith("#") ? item.tag : `#${item.tag}`}
           </button>
         );

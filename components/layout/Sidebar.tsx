@@ -8,8 +8,13 @@ import { fetchHashtagCounts } from "@/lib/posts";
 
 type HashtagItem = { tag: string; count: number };
 
+type TrendingTopicsProps = {
+  onTagClick?: (tag: string) => void;
+  activeTag?: string;
+};
+
 // fetches trending hashtags and renders them as a word cloud
-function TrendingTopics() {
+function TrendingTopics({ onTagClick, activeTag }: TrendingTopicsProps) {
   const [items, setItems] = useState<HashtagItem[]>([]);
 
   useEffect(() => {
@@ -31,7 +36,7 @@ function TrendingTopics() {
             # View Cloud
           </span>
         </div>
-        <WordCloud items={items} />
+        <WordCloud items={items} onTagClick={onTagClick} activeTag={activeTag} />
         <p className="text-[0.65rem] text-[var(--text-muted)] text-center">
           Bigger bubbles = more discussions
         </p>
@@ -40,12 +45,17 @@ function TrendingTopics() {
   );
 }
 
-// the right-hand sidebar — more sections here in the future, but for now just trending topics
-export default function Sidebar() {
+type SidebarProps = {
+  onTagClick?: (tag: string) => void;
+  activeTag?: string;
+};
+
+// the right-hand sidebar
+export default function Sidebar({ onTagClick, activeTag }: SidebarProps) {
   return (
     <div className="space-y-6">
       <AskAI />
-      <TrendingTopics />
+      <TrendingTopics onTagClick={onTagClick} activeTag={activeTag} />
     </div>
   );
 }

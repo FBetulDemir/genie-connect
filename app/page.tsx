@@ -53,6 +53,7 @@ export default function Home() {
   const [helpfulSet, setHelpfulSet] = useState<Set<number>>(new Set());
   const [likeSet, setLikeSet] = useState<Set<number>>(new Set());
   const [loading, setLoading] = useState(true);
+  const [activeTag, setActiveTag] = useState<string>(); // which hashtag the user picked from the word cloud
 
   // on first load: grab profile from localStorage, redirect to welcome if none
   useEffect(() => {
@@ -125,7 +126,13 @@ export default function Home() {
         nickname={profile?.nickname}
         avatarEmoji={profile?.avatar_emoji}
         onPublished={() => loadPosts()} // refresh feed after creating a new post
-        sidebar={<Sidebar />}>
+        sidebar={
+          // clicking a tag in the word cloud filters the feed, clicking it again clears the filter
+          <Sidebar
+            onTagClick={(tag) => setActiveTag((prev) => (prev === tag ? undefined : tag))}
+            activeTag={activeTag}
+          />
+        }>
         {loading ? (
           <p className="text-sm text-[var(--text-muted)] py-8 text-center">
             Loading posts...
@@ -143,7 +150,27 @@ export default function Home() {
           />
         ) : (
           <div className="space-y-4">
-            {posts.map((post) => (
+            {/* show a little "Filtering by #tag" bar when a hashtag is selected */}
+            {activeTag && (
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-[var(--text-secondary)]">
+                  Filtering by <span className="font-semibold text-[var(--accent-blue-400)]">#{activeTag}</span>
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setActiveTag(undefined)}
+                  className="text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors">
+                  Clear
+                </button>
+              </div>
+            )}
+            {/* if a tag is active, only keep posts that have it — otherwise show everything */}
+            {(activeTag
+              ? posts.filter((p) =>
+                  p.hashtags?.some((h) => h.replace(/^#/, "") === activeTag || h === activeTag),
+                )
+              : posts
+            ).map((post) => (
               <PostCard
                 key={post.id}
                 id={String(post.id)}
