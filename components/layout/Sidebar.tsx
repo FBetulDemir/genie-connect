@@ -23,8 +23,18 @@ function TrendingTopics() {
   return (
     <Card>
       <CardContent className="space-y-2">
-        <CardTitle>Trending Topics</CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <span>Trending Topics</span>
+          </CardTitle>
+          <span className="text-xs text-[var(--accent-blue-400)] font-medium">
+            # View Cloud
+          </span>
+        </div>
         <WordCloud items={items} />
+        <p className="text-[0.65rem] text-[var(--text-muted)] text-center">
+          Bigger bubbles = more discussions
+        </p>
       </CardContent>
     </Card>
   );
