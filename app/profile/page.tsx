@@ -14,6 +14,7 @@ import ArrowLeftIcon from "@/components/icons/ArrowLeftIcon";
 import CommentIcon from "@/components/icons/CommentIcon";
 import HeartIcon from "@/components/icons/HeartIcon";
 import EditIcon from "@/components/icons/EditIcon";
+import LightbulbIcon from "@/components/icons/LightbulbIcon";
 import {
   getStoredProfile,
   updateProfile,
@@ -49,12 +50,22 @@ function timeAgo(dateStr: string): string {
   return `${months}mo ago`;
 }
 
-type Stats = { posts: number; likes: number; comments: number; helpful: number };
+type Stats = {
+  posts: number;
+  likes: number;
+  comments: number;
+  helpful: number;
+};
 
 export default function ProfilePage() {
   const router = useRouter();
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [stats, setStats] = useState<Stats>({ posts: 0, likes: 0, comments: 0, helpful: 0 });
+  const [stats, setStats] = useState<Stats>({
+    posts: 0,
+    likes: 0,
+    comments: 0,
+    helpful: 0,
+  });
   const [posts, setPosts] = useState<PostRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
@@ -93,7 +104,11 @@ export default function ProfilePage() {
     if (!profile || !editNickname.trim()) return;
     setSaving(true);
     try {
-      const updated = await updateProfile(profile.id, editNickname.trim(), editEmoji);
+      const updated = await updateProfile(
+        profile.id,
+        editNickname.trim(),
+        editEmoji,
+      );
       setProfile(updated);
       setEditing(false);
     } catch (err) {
@@ -104,15 +119,33 @@ export default function ProfilePage() {
   };
 
   const statItems = [
-    { icon: <CommentIcon className="h-4 w-4" />, value: stats.posts, label: "Posts" },
-    { icon: <HeartIcon className="h-4 w-4" />, value: stats.likes, label: "Likes" },
-    { icon: <CommentIcon className="h-4 w-4" />, value: stats.comments, label: "Comments" },
-    { icon: <span className="text-sm">?</span>, value: stats.helpful, label: "Helpful" },
+    {
+      icon: <CommentIcon className="h-4 w-4 text-[#51A2FF]" />,
+      value: stats.posts,
+      label: "Posts",
+    },
+    {
+      icon: <HeartIcon className="h-4 w-4 text-[#FF637E]" />,
+      value: stats.likes,
+      label: "Likes",
+    },
+    {
+      icon: <CommentIcon className="h-4 w-4 text-[#00D3F2]" />,
+      value: stats.comments,
+      label: "Comments",
+    },
+    {
+      icon: <LightbulbIcon className="h-4 w-4 text-[#FFB900]" />,
+      value: stats.helpful,
+      label: "Helpful",
+    },
   ];
 
   return (
     <ToastProvider>
-      <AppShell nickname={profile?.nickname} avatarEmoji={profile?.avatar_emoji}>
+      <AppShell
+        nickname={profile?.nickname}
+        avatarEmoji={profile?.avatar_emoji}>
         {/* Back to feed */}
         <Button
           variant="link"
@@ -138,7 +171,10 @@ export default function ProfilePage() {
                     <h3 className="text-base font-semibold text-[var(--text-primary)]">
                       Edit Profile
                     </h3>
-                    <AvatarPicker selected={editEmoji} onSelect={setEditEmoji} />
+                    <AvatarPicker
+                      selected={editEmoji}
+                      onSelect={setEditEmoji}
+                    />
                     <Input
                       name="nickname"
                       label="Nickname"
@@ -147,7 +183,10 @@ export default function ProfilePage() {
                       onChange={(e) => setEditNickname(e.target.value)}
                     />
                     <div className="flex justify-end gap-3">
-                      <Button variant="ghost" size="sm" onClick={() => setEditing(false)}>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setEditing(false)}>
                         Cancel
                       </Button>
                       <Button
@@ -191,9 +230,13 @@ export default function ProfilePage() {
                         className="flex flex-col items-center gap-1 rounded-lg border border-[var(--border-card-default)] bg-[var(--surface)] py-3">
                         <div className="flex items-center gap-1.5 text-[var(--text-primary)]">
                           {stat.icon}
-                          <span className="text-base font-semibold">{stat.value}</span>
+                          <span className="text-base font-semibold">
+                            {stat.value}
+                          </span>
                         </div>
-                        <span className="text-xs text-[var(--text-muted)]">{stat.label}</span>
+                        <span className="text-xs text-[var(--text-muted)]">
+                          {stat.label}
+                        </span>
                       </div>
                     ))}
                   </div>
@@ -221,7 +264,9 @@ export default function ProfilePage() {
                         key={post.id}
                         id={String(post.id)}
                         avatarEmoji={
-                          post.is_anonymous ? undefined : post.profiles?.avatar_emoji
+                          post.is_anonymous
+                            ? undefined
+                            : post.profiles?.avatar_emoji
                         }
                         name={
                           post.is_anonymous
