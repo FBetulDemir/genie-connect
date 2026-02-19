@@ -128,7 +128,7 @@ export default function ProfilePage() {
             Loading profile...
           </p>
         ) : (
-          <div className="space-y-6 max-w-2xl">
+          <div className="space-y-6 max-w-2xl mx-auto">
             {/* Profile card */}
             <Card>
               <CardContent className="space-y-6">

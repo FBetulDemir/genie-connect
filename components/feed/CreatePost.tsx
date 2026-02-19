@@ -91,7 +91,7 @@ const CreatePost = ({ onPublished }: CreatePostProps) => {
         size="sm"
         leftIcon={<PlusIcon className="h-4 w-4" />}
         onClick={() => setOpen(true)}>
-        New Post
+        <span className="hidden sm:inline">New Post</span>
       </Button>
 
       <Modal open={open} onClose={() => setOpen(false)} size="md">

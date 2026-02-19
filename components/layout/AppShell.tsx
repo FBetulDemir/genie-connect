@@ -31,15 +31,15 @@ const AppShell = ({
 
       <div
         className={cn(
-          "mx-auto flex w-full max-w-7xl flex-1 gap-6 px-6 py-6",
+          "mx-auto flex w-full max-w-7xl flex-1 flex-col lg:flex-row gap-6 px-6 py-6",
           className,
         )}>
         {/* Main content */}
-        <main className="flex-1 space-y-6">{children}</main>
+        <main className="flex-1 space-y-6 order-2 lg:order-1">{children}</main>
 
-        {/* Sidebar */}
+        {/* Sidebar — on mobile it sits above the feed, on desktop it's on the right */}
         {sidebar && (
-          <aside className="hidden w-80 shrink-0 space-y-6 lg:block">
+          <aside className="w-full lg:w-80 shrink-0 space-y-6 order-1 lg:order-2">
             {sidebar}
           </aside>
         )}

@@ -42,7 +42,7 @@ const Navbar = ({
       <div className="flex items-center gap-4">
         <Link href="/profile" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
           <Avatar emoji={avatarEmoji} size="sm" />
-          <span className="text-sm text-[var(--text-primary)]">{nickname}</span>
+          <span className="hidden sm:inline text-sm text-[var(--text-primary)]">{nickname}</span>
         </Link>
         <CreatePost onPublished={onPublished} />
       </div>
