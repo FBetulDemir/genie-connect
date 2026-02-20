@@ -3,12 +3,13 @@
 import React, { useState } from "react";
 import cn from "@/lib/classnames";
 import { Avatar } from "../ui/Avatar";
-import { Input } from "../ui/Input";
+import { Input, TextArea } from "../ui/Input";
 import Button from "../ui/Button";
 import IconButton from "../ui/IconButton";
 import HeartIcon from "../icons/HeartIcon";
 import CommentIcon from "../icons/CommentIcon";
 import LikeIcon from "../icons/LikeIcon";
+import SendIcon from "../icons/SendIcon";
 import Hashtag from "../ui/Hashtag";
 import CommentItem from "./CommentItem";
 
@@ -132,7 +133,6 @@ export default function PostThread({
   onHelpful,
   className,
 }: PostThreadProps) {
-  const [commentOpen, setCommentOpen] = useState(false);
   const [commentText, setCommentText] = useState("");
 
   const handleSubmitComment = () => {
@@ -140,14 +140,6 @@ export default function PostThread({
     if (!trimmed) return;
     onReply?.(post.id, trimmed);
     setCommentText("");
-    setCommentOpen(false);
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSubmitComment();
-    }
   };
 
   const commentCount = countReplies(post.comments);
@@ -197,41 +189,49 @@ export default function PostThread({
           />
           <IconButton
             icon={<CommentIcon />}
-            aria-label="Comment"
+            aria-label="Comments"
             count={commentCount}
-            onClick={() => setCommentOpen((prev) => !prev)}
           />
           <IconButton
             icon={<LikeIcon />}
             aria-label="Helpful"
             count={post.helpful}
-            label="helpful"
+            label="Helpful"
             active={helpfulActive}
             onClick={() => onHelpful?.(post.id)}
           />
         </div>
       </div>
 
-      {/* Add comment input */}
-      {commentOpen && (
-        <div className="flex gap-2 items-start">
-          <Input
-            name="comment"
-            value={commentText}
-            onChange={(e) => setCommentText(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Write a comment..."
-            containerClassName="flex-1"
-          />
-          <Button variant="primary" size="sm" onClick={handleSubmitComment}>
-            Comment
+      {/* Comment count header */}
+      <p className="text-sm font-semibold text-[var(--text-primary)]">
+        {commentCount} {commentCount === 1 ? "Comment" : "Comments"}
+      </p>
+
+      {/* Always-visible comment input */}
+      <div className="rounded-xl border border-[var(--border-card-default)] bg-[var(--surface-muted)] p-4 space-y-3">
+        <TextArea
+          name="comment"
+          value={commentText}
+          onChange={(e) => setCommentText(e.target.value)}
+          placeholder="Share your thoughts or advice..."
+          rows={3}
+        />
+        <div className="flex justify-end">
+          <Button
+            variant="primary"
+            size="sm"
+            leftIcon={<SendIcon className="h-4 w-4" />}
+            disabled={!commentText.trim()}
+            onClick={handleSubmitComment}>
+            Post Comment
           </Button>
         </div>
-      )}
+      </div>
 
       {/* Comments / replies */}
       {post.comments && post.comments.length > 0 && (
-        <div className="space-y-3 ml-2 border-l-2 border-[var(--border-card-default)] pl-4">
+        <div className="space-y-3">
           {post.comments.map((comment) => (
             <ReplyNode
               key={comment.id}
