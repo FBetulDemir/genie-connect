@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardTitle } from "@/components/ui/Card";
 import WordCloud from "@/components/hashtags/WordCloud";
 import AskAI from "@/components/ai/AskAI";
+import ResourceHub from "@/components/resource-hub/ResourceHub";
 import { fetchHashtagCounts } from "@/lib/posts";
 
 type HashtagItem = { tag: string; count: number };
@@ -56,6 +57,7 @@ export default function Sidebar({ onTagClick, activeTag }: SidebarProps) {
     <div className="space-y-6">
       <AskAI />
       <TrendingTopics onTagClick={onTagClick} activeTag={activeTag} />
+      <ResourceHub />
     </div>
   );
 }
