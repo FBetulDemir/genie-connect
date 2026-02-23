@@ -13,6 +13,7 @@ import SendIcon from "../icons/SendIcon";
 import Hashtag from "../ui/Hashtag";
 import CommentItem from "./CommentItem";
 
+// we stop nesting replies after 3 levels deep — any deeper gets hard to read
 const MAX_REPLY_DEPTH = 3;
 
 export type Reply = {
@@ -48,6 +49,7 @@ type PostThreadProps = {
   className?: string;
 };
 
+// renders one comment, its reply box, and any replies below it — each child uses this same component
 function CommentWithReplies({
   reply,
   depth,
@@ -62,6 +64,7 @@ function CommentWithReplies({
   const [replyOpen, setReplyOpen] = useState(false);
   const [replyText, setReplyText] = useState("");
 
+  // once we hit max depth, we hide the reply button so threads don't go on forever
   const canReply = depth < MAX_REPLY_DEPTH;
 
   const handleSubmitReply = () => {
@@ -246,6 +249,7 @@ export default function PostThread({
   );
 }
 
+// counts all comments including nested ones, so the comment count in the action bar is always accurate
 function countReplies(replies?: Reply[]): number {
   if (!replies) return 0;
   return replies.reduce((sum, r) => sum + 1 + countReplies(r.replies), 0);

@@ -5,8 +5,10 @@ import { useRouter } from "next/navigation";
 import AppShell from "@/components/layout/AppShell";
 import Sidebar from "@/components/layout/Sidebar";
 import { ToastProvider } from "@/components/ui/Toast";
+import { Card, CardContent } from "@/components/ui/Card";
 import EmptyState from "@/components/ui/EmptyState";
 import CommentIcon from "@/components/icons/CommentIcon";
+import ArrowUpIcon from "@/components/icons/ArrowUpIcon";
 import Button from "@/components/ui/Button";
 import PostCard from "@/components/feed/PostCard";
 import { fetchPosts, toggleHelpful, getUserHelpfuls, toggleLike, getUserLikes } from "@/lib/posts";
@@ -54,6 +56,15 @@ export default function Home() {
   const [likeSet, setLikeSet] = useState<Set<number>>(new Set());
   const [loading, setLoading] = useState(true);
   const [activeTag, setActiveTag] = useState<string>(); // which hashtag the user picked from the word cloud
+  const [visibleCount, setVisibleCount] = useState(7); // start with 7 posts, more load on demand
+  const [showScrollTop, setShowScrollTop] = useState(false); // show the back-to-top button after scrolling down
+
+  // show the scroll-to-top button once the user has scrolled down enough
+  useEffect(() => {
+    const onScroll = () => setShowScrollTop(window.scrollY > 300);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // on first load: grab profile from localStorage, redirect to welcome if none
   useEffect(() => {
@@ -120,6 +131,15 @@ export default function Home() {
     });
   };
 
+  // filter posts by active tag, then slice to what's currently visible
+  const filteredPosts = activeTag
+    ? posts.filter((p) =>
+        p.hashtags?.some((h) => h.replace(/^#/, "") === activeTag || h === activeTag),
+      )
+    : posts;
+  const visiblePosts = filteredPosts.slice(0, visibleCount);
+  const hasMore = filteredPosts.length > visibleCount;
+
   return (
     <ToastProvider>
       <AppShell
@@ -129,7 +149,10 @@ export default function Home() {
         sidebar={
           // clicking a tag in the word cloud filters the feed, clicking it again clears the filter
           <Sidebar
-            onTagClick={(tag) => setActiveTag((prev) => (prev === tag ? undefined : tag))}
+            onTagClick={(tag) => {
+              setActiveTag((prev) => (prev === tag ? undefined : tag));
+              setVisibleCount(7); // reset back to 7 when switching tags
+            }}
             activeTag={activeTag}
           />
         }>
@@ -150,6 +173,15 @@ export default function Home() {
           />
         ) : (
           <div className="space-y-4">
+            {/* welcome banner at the top of the feed */}
+            <Card variant="bordered">
+              <CardContent>
+                <p className="text-base font-semibold text-[var(--text-primary)]">Community Feed</p>
+                <p className="text-sm text-[var(--text-muted)] mt-0.5">
+                  Share experiences, ask questions, and support each other 💪
+                </p>
+              </CardContent>
+            </Card>
             {/* show a little "Filtering by #tag" bar when a hashtag is selected */}
             {activeTag && (
               <div className="flex items-center gap-2">
@@ -165,12 +197,7 @@ export default function Home() {
               </div>
             )}
             {/* if a tag is active, only keep posts that have it — otherwise show everything */}
-            {(activeTag
-              ? posts.filter((p) =>
-                  p.hashtags?.some((h) => h.replace(/^#/, "") === activeTag || h === activeTag),
-                )
-              : posts
-            ).map((post) => (
+            {visiblePosts.map((post) => (
               <PostCard
                 key={post.id}
                 id={String(post.id)}
@@ -197,9 +224,29 @@ export default function Home() {
                 onClick={() => router.push(`/post/${post.id}`)}
               />
             ))}
+            {hasMore && (
+              <div className="flex justify-center pt-2">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setVisibleCount((prev) => prev + 7)}>
+                  Show more
+                </Button>
+              </div>
+            )}
           </div>
         )}
       </AppShell>
+      {/* floating button — only shows up after scrolling down 300px */}
+      {showScrollTop && (
+        <button
+          type="button"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="fixed bottom-6 right-6 z-50 flex items-center justify-center h-10 w-10 rounded-full bg-[var(--accent-blue-500)] text-white shadow-lg hover:bg-[var(--accent-blue-400)] transition-colors"
+          aria-label="Back to top">
+          <ArrowUpIcon className="h-5 w-5" />
+        </button>
+      )}
     </ToastProvider>
   );
 }
