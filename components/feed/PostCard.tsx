@@ -103,6 +103,7 @@ export default function PostCard({
           icon={<CommentIcon />}
           aria-label="Comments"
           count={commentCount}
+          onClick={onClick}
         />
         <IconButton
           icon={<LikeIcon />}

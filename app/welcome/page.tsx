@@ -34,11 +34,11 @@ export default function WelcomePage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[var(--accent-blue-600)] to-[var(--accent-blue-400)] px-4">
-      <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-xl">
+    <div className="min-h-screen overflow-y-auto flex items-center justify-center bg-gradient-to-br from-[var(--accent-blue-600)] to-[var(--accent-blue-400)] px-4 py-6">
+      <div className="w-full max-w-md rounded-2xl bg-white p-5 shadow-xl">
         {/* Header */}
-        <div className="flex flex-col items-center mb-8">
-          <LogoIcon className="h-16 w-16 mb-4" />
+        <div className="flex flex-col items-center mb-4">
+          <LogoIcon className="h-12 w-12 mb-3" />
           <h1 className="text-xl font-bold text-gray-900">
             Welcome to GENIE Connect
           </h1>
@@ -48,7 +48,7 @@ export default function WelcomePage() {
         </div>
 
         {/* Form */}
-        <div className="space-y-6">
+        <div className="space-y-4">
           <Input
             name="nickname"
             label="Nickname"

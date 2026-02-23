@@ -193,6 +193,11 @@ export default function PostThread({
             icon={<CommentIcon />}
             aria-label="Comments"
             count={commentCount}
+            onClick={() =>
+              document
+                .getElementById("comments-section")
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
           />
           <IconButton
             icon={<LikeIcon />}
@@ -206,7 +211,7 @@ export default function PostThread({
       </div>
 
       {/* Comment count header */}
-      <p className="text-sm font-semibold text-[var(--text-primary)]">
+      <p id="comments-section" className="text-sm font-semibold text-[var(--text-primary)]">
         {commentCount} {commentCount === 1 ? "Comment" : "Comments"}
       </p>
 
