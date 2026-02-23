@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import cn from "@/lib/classnames";
 import { Avatar } from "../ui/Avatar";
-import { Input, TextArea } from "../ui/Input";
+import { TextArea } from "../ui/Input";
 import Button from "../ui/Button";
 import IconButton from "../ui/IconButton";
 import HeartIcon from "../icons/HeartIcon";
@@ -48,7 +48,7 @@ type PostThreadProps = {
   className?: string;
 };
 
-function ReplyNode({
+function CommentWithReplies({
   reply,
   depth,
   onReply,
@@ -72,13 +72,6 @@ function ReplyNode({
     setReplyOpen(false);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSubmitReply();
-    }
-  };
-
   return (
     <div>
       <CommentItem
@@ -92,25 +85,31 @@ function ReplyNode({
       />
 
       {replyOpen && (
-        <div className="mt-2 ml-10 flex gap-2 items-start">
-          <Input
+        <div className="mt-2 ml-10 rounded-xl border border-[var(--border-card-default)] bg-[var(--surface-muted)] p-3 space-y-2">
+          <TextArea
             name="reply"
             value={replyText}
             onChange={(e) => setReplyText(e.target.value)}
-            onKeyDown={handleKeyDown}
             placeholder="Write a reply..."
-            containerClassName="flex-1"
+            rows={2}
           />
-          <Button variant="primary" size="sm" onClick={handleSubmitReply}>
-            Reply
-          </Button>
+          <div className="flex justify-end">
+            <Button
+              variant="primary"
+              size="sm"
+              leftIcon={<SendIcon className="h-4 w-4" />}
+              disabled={!replyText.trim()}
+              onClick={handleSubmitReply}>
+              Reply
+            </Button>
+          </div>
         </div>
       )}
 
       {reply.replies && reply.replies.length > 0 && (
         <div className="mt-2 ml-5 border-l-2 border-[var(--border-card-default)] pl-4 space-y-2">
           {reply.replies.map((child) => (
-            <ReplyNode
+            <CommentWithReplies
               key={child.id}
               reply={child}
               depth={depth + 1}
@@ -233,7 +232,7 @@ export default function PostThread({
       {post.comments && post.comments.length > 0 && (
         <div className="space-y-3">
           {post.comments.map((comment) => (
-            <ReplyNode
+            <CommentWithReplies
               key={comment.id}
               reply={comment}
               depth={0}
