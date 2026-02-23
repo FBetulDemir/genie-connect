@@ -50,8 +50,11 @@ export default function WordCloud({
   activeTag,
   className,
 }: WordCloudProps) {
-  // grab the min and max counts to scale bubble sizes
-  const counts = items.map((i) => i.count);
+  // sort by most used and cap at 12 so the cloud doesn't get overwhelming
+  const topItems = [...items].sort((a, b) => b.count - a.count).slice(0, 12);
+
+  // grab the min and max counts from the top 12 only, so sizes scale within that range
+  const counts = topItems.map((i) => i.count);
   const max = Math.max(...counts, 1);
   const min = Math.min(...counts, 0);
 
@@ -61,7 +64,7 @@ export default function WordCloud({
         "flex flex-wrap items-center justify-center gap-2.5 py-4",
         className,
       )}>
-      {items.map((item) => {
+      {topItems.map((item) => {
         const tier = getSizeTier(item.count, min, max);
 
         // strip the leading # so we can compare consistently

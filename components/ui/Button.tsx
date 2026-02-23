@@ -96,7 +96,7 @@ export default function Button({
     // Avoid passing button-only props to non-button elements (e.g. <a> via next/link).
     const { type: _type, ...restProps } = props;
 
-    return React.cloneElement(child as React.ReactElement, {
+    return React.cloneElement(child as React.ReactElement<any>, {
       className: cn((child as any).props?.className, buttonClassName),
       "aria-disabled": isDisabled || undefined,
       tabIndex: isDisabled ? -1 : (child as any).props?.tabIndex,
