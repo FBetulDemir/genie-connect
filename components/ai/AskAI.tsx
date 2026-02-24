@@ -49,7 +49,7 @@ export default function AskAI() {
         <div className="flex items-center gap-2">
           <LogoIcon className="h-6 w-6" />
           <span className="text-sm font-semibold text-[var(--text-primary)]">
-            Ask GENIE AI
+            Ask AI
           </span>
         </div>
 
@@ -89,9 +89,7 @@ export default function AskAI() {
         )}
 
         {/* Error */}
-        {error && (
-          <p className="text-xs text-red-400">{error}</p>
-        )}
+        {error && <p className="text-xs text-red-400">{error}</p>}
       </CardContent>
     </Card>
   );

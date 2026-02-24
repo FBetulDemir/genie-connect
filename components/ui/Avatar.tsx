@@ -16,28 +16,30 @@ interface AvatarGroupProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const AVATAR_OPTIONS = [
-  "👤", // person
+  "👤", // silhouette
+  "🐶", // dog
+  "🐸", // frog
+  "🦄", // unicorn
+  "🐉", // dragon
+  "🦋", // butterfly
+  "🌟", // star
+  "🔮", // crystal ball
+  "🦸", // superhero
+  "🧙", // mage
+  "🧚", // fairy
+  "🧞", // genie
+  "🧜", // merperson
+  "🧝", // elf
+  "🧑‍🎓", // student
+  "🧑‍💼", // professional
+  "🧑‍🔬", // scientist
+  "🧑‍🎨", // artist
   "😺", // cat
   "😸", // grinning cat
-  "😹", // cat with tears
-  "😻", // heart cat
-  "😼", // cat with mouth
-  "😽", // kissing cat
-  "🙀", // weary cat
-  "😿", // crying cat
-  "😾", // pouting cat
-  "🐱", // cat face
-  "👨", // man
-  "👩", // woman
-  "👦", // boy
-  "👧", // girl
-  "🧑", // person
-  "👱", // blonde person
-  "👨‍🦰", // man red hair
-  "👨‍🦱", // man curly hair
-  "👰", // bride
-  "🤴", // prince
-  "👸", // princess
+  "😻", // heart eyes cat
+  "🤖", // robot
+  "👾", // alien monster
+  "🦊", // fox
 ];
 
 const getSizeClasses = (size: AvatarSize): string => {
@@ -130,10 +132,11 @@ function AvatarPicker({ onSelect, selected }: AvatarPickerProps) {
             onClick={() => onSelect(emoji)}
             className={cn(
               "flex items-center justify-center w-12 h-12 rounded-lg",
-              "transition-colors border-2",
+              "cursor-pointer transition-all duration-150 border-2",
+              "hover:scale-110 active:scale-95",
               selected === emoji
                 ? "border-[var(--accent-blue-500)] bg-[var(--accent-blue-200)]"
-                : "border-[var(--border-card-default)] bg-[var(--surface)] hover:bg-[var(--surface-muted)]",
+                : "border-[var(--border-card-default)] bg-[var(--surface)] hover:border-[var(--accent-blue-500)]",
             )}>
             <span className="text-2xl">{emoji}</span>
           </button>
