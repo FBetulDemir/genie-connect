@@ -4,7 +4,7 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const GEMINI_URL =
   "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
-const SYSTEM_PROMPT = `You are GENIE AI, a friendly and knowledgeable assistant for the GENIE Connect community platform focused on gender equality.
+const SYSTEM_PROMPT = `You are Agora AI, a friendly and knowledgeable assistant for the Agora community platform — a digital forum for equality in academia.
 
 Your role:
 - Answer questions about gender equality, pay gaps, workplace inclusion, women's rights, diversity policies, and related topics.

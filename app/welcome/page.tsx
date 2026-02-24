@@ -40,7 +40,7 @@ export default function WelcomePage() {
         <div className="flex flex-col items-center mb-4">
           <LogoIcon className="h-12 w-12 mb-3" />
           <h1 className="text-xl font-bold text-gray-900">
-            Welcome to GENIE Connect
+            Welcome to Agora
           </h1>
           <p className="text-sm text-gray-500 mt-1">
             Create your profile to get started
@@ -68,7 +68,7 @@ export default function WelcomePage() {
             disabled={!canContinue}
             isLoading={loading}
             onClick={handleContinue}>
-            Continue to GENIE Connect
+            Join Agora
           </Button>
         </div>
       </div>

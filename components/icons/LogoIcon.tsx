@@ -11,13 +11,29 @@ export default function LogoIcon({
       fill="none"
       className={className}
       {...props}>
+      {/* Blue circle background */}
       <circle cx="18" cy="18" r="18" fill="var(--accent-blue-500)" />
+      {/* Letter A — the Agora mark */}
       <path
-        d="M13 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM23 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM10 26v-3a4 4 0 0 1 4-4h1M26 26v-3a4 4 0 0 0-4-4h-1M16 21l2 2 2-2"
+        d="M18 8L12 26M18 8L24 26"
+        stroke="white"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M14 20L22 20"
+        stroke="white"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      {/* Arc at the base — representing the forum/gathering place */}
+      <path
+        d="M10 29Q18 25 26 29"
         stroke="white"
         strokeWidth="1.5"
         strokeLinecap="round"
-        strokeLinejoin="round"
+        fill="none"
       />
     </svg>
   );

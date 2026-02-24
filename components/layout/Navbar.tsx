@@ -30,10 +30,10 @@ const Navbar = ({
         <LogoIcon className="h-9 w-9" />
         <div>
           <p className="text-sm font-semibold text-[var(--accent-blue-500)]">
-            GENIE Connect
+            Agora
           </p>
           <p className="text-xs text-[var(--text-muted)]">
-            Building Gender Equality in Academia
+            A Digital Forum for Equality in Academia
           </p>
         </div>
       </div>

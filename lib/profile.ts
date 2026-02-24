@@ -1,6 +1,6 @@
 import { supabase } from "./supabase";
 
-const PROFILE_KEY = "genie-connect-profile";
+const PROFILE_KEY = "agora-profile";
 
 export type Profile = {
   id: number;

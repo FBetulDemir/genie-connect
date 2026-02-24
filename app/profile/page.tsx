@@ -208,7 +208,7 @@ export default function ProfilePage() {
                         {profile?.nickname}
                       </p>
                       <p className="text-xs text-[var(--text-muted)]">
-                        Member of GENIE Connect Community
+                        Member of Agora Community
                       </p>
                     </div>
                     <Button

@@ -27,7 +27,7 @@ const AVATAR_OPTIONS = [
   "🦸", // superhero
   "🧙", // mage
   "🧚", // fairy
-  "🧞", // genie
+  "🧞", // lamp spirit
   "🧜", // merperson
   "🧝", // elf
   "🧑‍🎓", // student
