@@ -181,7 +181,7 @@ export default function PostThread({
         )}
 
         {/* Action bar */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-1 pt-3 mt-1 border-t border-[var(--border-card-default)]">
           <IconButton
             icon={<HeartIcon />}
             aria-label="Like"

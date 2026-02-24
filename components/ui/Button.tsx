@@ -38,7 +38,7 @@ export default function Button({
     "inline-flex items-center justify-center rounded-[var(--button-radius)]",
     "gap-[var(--button-gap)] px-[var(--button-padding-x)] py-[var(--button-padding-y)]",
     "text-[var(--button-font-size)] leading-[var(--button-line-height)] font-[var(--button-font-weight)]",
-    "transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+    "cursor-pointer transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
     "ring-offset-background",
 
     // sizes

@@ -78,7 +78,7 @@ export default function WordCloud({
             onClick={() => onTagClick?.(rawTag)}
             className={cn(
               // base: rounded pill with a border and smooth transitions
-              "rounded-full border text-[var(--text-primary)]",
+              "rounded-full border text-[var(--text-primary)] cursor-pointer",
               "transition-all duration-200",
               sizeClasses[tier],
               // active tag gets a brighter glow to know which one is selected

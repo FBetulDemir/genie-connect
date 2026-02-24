@@ -36,7 +36,7 @@ export default function Hashtag({
     <button
       type="button"
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full font-medium transition-colors",
+        "inline-flex items-center gap-1.5 rounded-full font-medium transition-colors cursor-pointer",
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-[var(--accent-blue-500)]",
 
         // sizes
@@ -97,7 +97,7 @@ export function HashtagList({
 }: HashtagListProps) {
   return (
     <div className={cn("space-y-2", className)}>
-      {items.map((item, index) => (
+      {items.map((item) => (
         <button
           key={item.tag}
           onClick={() => onTagClick?.(item.tag)}

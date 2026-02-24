@@ -90,7 +90,7 @@ export default function PostCard({
 
       {/* Action bar */}
       <div
-        className="flex items-center gap-4"
+        className="flex items-center gap-1 pt-3 mt-1 border-t border-[var(--border-card-default)]"
         onClick={(e) => e.stopPropagation()}>
         <IconButton
           icon={<HeartIcon />}

@@ -28,12 +28,12 @@ export default function IconButton({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "inline-flex items-center gap-1.5 text-sm rounded-lg px-2 py-1",
+        "inline-flex items-center gap-1.5 text-sm rounded-lg px-2 py-1 cursor-pointer",
         "transition-all duration-150 focus:outline-none",
         "hover:scale-105 active:scale-95",
         active
-          ? "text-[var(--accent-blue-500)] bg-(--accent-blue-500)/10"
-          : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-black/5",
+          ? "text-(--accent-blue-500)"
+          : "text-[var(--text-secondary)] hover:text-teal-400",
         disabled && "opacity-50 cursor-not-allowed",
         className,
       )}
