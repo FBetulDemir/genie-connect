@@ -136,6 +136,33 @@
   --button-disabled-text: var(--button-disabled-text);
 }
 
+/* Light theme overrides */
+html.light {
+  --background: #f0f4ff;
+  --foreground: #1e293b;
+  --surface: #ffffff;
+  --surface-muted: #f1f5f9;
+
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --text-body: #334155;
+
+  --border-card-light: rgba(148, 163, 184, 0.3);
+  --border-card-default: rgba(148, 163, 184, 0.5);
+  --border-card-strong: rgba(100, 116, 139, 0.7);
+
+  --button-secondary-bg: #e2e8f0;
+  --button-secondary-text: #334155;
+  --button-secondary-border: rgba(148, 163, 184, 0.6);
+
+  --button-ghost-text: #334155;
+  --button-ghost-border: rgba(148, 163, 184, 0.6);
+
+  --button-disabled-bg: rgba(148, 163, 184, 0.2);
+  --button-disabled-text: rgba(51, 65, 85, 0.45);
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

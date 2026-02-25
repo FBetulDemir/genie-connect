@@ -4,6 +4,7 @@ import cn from "@/lib/classnames";
 import LogoIcon from "../icons/LogoIcon";
 import { Avatar } from "../ui/Avatar";
 import CreatePost, { CreatePostData } from "../feed/CreatePost";
+import ThemeToggle from "../ui/ThemeToggle";
 
 type NavbarProps = {
   nickname?: string;
@@ -38,12 +39,13 @@ const Navbar = ({
         </div>
       </div>
 
-      {/* Right: avatar + new post */}
+      {/* Right: avatar + theme toggle + new post */}
       <div className="flex items-center gap-4">
         <Link href="/profile" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
           <Avatar emoji={avatarEmoji} size="sm" />
           <span className="hidden sm:inline text-sm text-[var(--text-primary)]">{nickname}</span>
         </Link>
+        <ThemeToggle />
         <CreatePost onPublished={onPublished} />
       </div>
     </nav>
