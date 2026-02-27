@@ -1,36 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Agora
+
+**A Digital Forum for Equality in Academia**
+
+Live demo: [agora-connect.vercel.app](https://agora-connect.vercel.app)
+
+Agora is a community platform designed to support open and respectful dialogue around gender equality in academia. Users can share experiences, ask questions, and engage in discussions — anonymously or under a chosen nickname.
+
+---
+
+## Features
+
+- **Anonymous posting** — publish without revealing your identity
+- **Threaded comments** — nested replies for structured discussions
+- **Hashtag filtering** — browse topics via clickable hashtags
+- **Word cloud** — dynamic visualization of trending hashtags
+- **Resource Hub** — curated articles and external resources on gender equality
+- **AI assistant** — ask questions and get contextual guidance via Gemini
+- **Light / dark theme** — toggle with preference saved across sessions
+- **Profile system** — choose a nickname and avatar emoji, no account required
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | [Next.js 16](https://nextjs.org) (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS 4 |
+| Database | [Supabase](https://supabase.com) (PostgreSQL) |
+| AI | Google Gemini API (`@google/genai`) |
+| Deployment | Vercel |
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- A [Supabase](https://supabase.com) project
+- A [Google AI Studio](https://aistudio.google.com) API key (for Gemini)
+
+### Installation
+
+```bash
+git clone https://github.com/FBetulDemir/Agora.git
+cd agora
+npm install
+```
+
+### Environment Variables
+
+Create a `.env.local` file in the root:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+GEMINI_API_KEY=your_gemini_api_key
+```
+
+### Run Locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Database Schema
 
-## Learn More
+The following tables are used in Supabase (PostgreSQL):
 
-To learn more about Next.js, take a look at the following resources:
+| Table | Description |
+|---|---|
+| `profiles` | User nickname and avatar emoji |
+| `posts` | Forum posts with optional anonymous flag |
+| `comments` | Threaded comments linked to posts |
+| `post_likes` | Like interactions on posts |
+| `post_helpfuls` | "Helpful" interactions on posts |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Row Level Security (RLS) is enabled on all tables.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Project Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+app/               # Next.js App Router pages
+components/
+  feed/            # PostCard, PostThread, CreatePost, CommentItem
+  layout/          # Navbar, Sidebar, AppShell
+  ui/              # Button, Input, Avatar, ThemeToggle, ...
+  hashtags/        # WordCloud
+  profile/         # ProfileCard
+  resource-hub/    # ResourceHub
+  ai/              # AskAI (Gemini integration)
+lib/               # Supabase client, posts, comments, profile logic
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Deployment
+
+The app is deployed on [Vercel](https://vercel.com). Add the environment variables above in your Vercel project settings.
+
+---
+
+## License
+
+This project was developed as a thesis project at Chalmers University of Technology.
